@@ -3,6 +3,8 @@ package com.avoidit;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
@@ -42,6 +44,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private View mProgressView;
     private View mRegistrationFormView;
+    Button mRegisterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +68,14 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-        Button mRegisterButton = (Button) findViewById(R.id.register_button);
+        mRegisterButton = (Button) findViewById(R.id.register_button);
         mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptRegistration();
             }
         });
+        mRegisterButton.setEnabled(true);
 
         mRegistrationFormView = findViewById(R.id.registration_form);
         mProgressView = findViewById(R.id.registration_progress);
@@ -172,7 +176,8 @@ public class RegistrationActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new RegistrationTask(firstName, lastName, parsedPhone, email, password);
+            mAuthTask = new RegistrationTask(firstName, lastName, parsedPhone,
+                    email, password, this);
             mAuthTask.execute((Void) null);
         }
     }
@@ -195,18 +200,10 @@ public class RegistrationActivity extends AppCompatActivity {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
+        mRegisterButton.setEnabled(!show);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mRegistrationFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mRegistrationFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mRegistrationFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
@@ -219,7 +216,6 @@ public class RegistrationActivity extends AppCompatActivity {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mRegistrationFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -230,14 +226,16 @@ public class RegistrationActivity extends AppCompatActivity {
         private final String mPhoneNumber;
         private final String mEmail;
         private final String mPassword;
+        private final Context mContext;
 
         RegistrationTask(String firstName, String lastName, String phoneNumber,
-                         String email, String password) {
+                         String email, String password, Context context) {
             mFirstName = firstName;
             mLastName = lastName;
             mPhoneNumber = phoneNumber;
             mEmail = email;
             mPassword = password;
+            mContext = context;
         }
 
         @Override
@@ -258,11 +256,15 @@ public class RegistrationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
 
             if (success) {
                 finish();
+                // TODO: Start HomeActivity?
+                Intent intent = new Intent(mContext, HomeActivity.class);
+                startActivity(intent);
+
             } else {
+                showProgress(false);
                 // TODO: Implement error notification.
             }
         }

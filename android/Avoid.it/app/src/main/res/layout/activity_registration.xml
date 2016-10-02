@@ -10,15 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.avoidit.RegistrationActivity">
 
-    <!-- Registration progress -->
-    <ProgressBar
-        android:id="@+id/registration_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
-
     <ScrollView
         android:id="@+id/reg_form"
         android:layout_width="match_parent"
@@ -135,6 +126,19 @@
                 android:text="@string/action_register"
                 android:textStyle="bold" />
 
+            <!-- Registration progress -->
+            <ProgressBar
+                android:id="@+id/registration_progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
         </LinearLayout>
+
     </ScrollView>
+
+
 </LinearLayout>
