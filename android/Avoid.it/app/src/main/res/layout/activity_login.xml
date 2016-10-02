@@ -72,6 +72,16 @@
                 android:text="@string/action_sign_in"
                 android:textStyle="bold"/>
 
+            <TextView
+                android:id="@+id/register_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textAlignment="center"
+                android:text="Don't have an account?"
+                android:textColor="@color/colorLink"
+                android:onClick="startRegistration"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
