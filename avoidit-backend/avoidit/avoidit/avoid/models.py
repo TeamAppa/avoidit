@@ -10,6 +10,8 @@ class AvoidItUser(models.Model):
     password = models.CharField(max_length=255)
     email = models.EmailField()
     verified  = models.BooleanField(default=False)
+    def check_password(self, u_password):
+        return u_password == self.password
 
 class Rule(models.Model):
     phone_number = models.ForeignKey(AvoidItUser, on_delete=models.CASCADE)
