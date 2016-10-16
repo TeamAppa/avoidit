@@ -126,7 +126,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         // Check for a valid first name.
         if (TextUtils.isEmpty(firstName)) {
-            mNameView.setError("First name is required");
+            mNameView.setError("Name is required");
             focusView.add(mNameView);
             cancel = true;
         }
