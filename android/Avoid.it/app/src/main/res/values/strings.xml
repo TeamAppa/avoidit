@@ -20,9 +20,14 @@
         completions."
     </string>
 
+
+    <!-- String related to navigation drawer -->
     <string name="nav_bar_subtext">Accountability App</string>
     <string name="title_activity_registration">Register for Avoid.it</string>
     <string name="title_activity_home">Avoid.it</string>
+
+    <string name="nav_bar_home">Home</string>
+    <string name="nav_bar_profile">Profile</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
