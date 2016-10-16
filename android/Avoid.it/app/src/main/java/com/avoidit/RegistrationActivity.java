@@ -38,8 +38,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mEmailView;
     private EditText mPasswordView;
     private EditText mPhoneNumberView;
-    private EditText mFirstNameView;
-    private EditText mLastNameView;
+    private EditText mNameView;
     private EditText mConfirmPasswordView;
 
     private View mProgressView;
@@ -52,8 +51,7 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         // Set up the registration form.
         mEmailView = (EditText) findViewById(R.id.email);
-        mFirstNameView = (EditText) findViewById(R.id.firstName);
-        mLastNameView = (EditText) findViewById(R.id.lastName);
+        mNameView = (EditText) findViewById(R.id.firstName);
         mPhoneNumberView = (EditText) findViewById(R.id.phoneNumber);
         mPasswordView = (EditText) findViewById(R.id.password);
         mConfirmPasswordView = (EditText) findViewById(R.id.confirm_password);
@@ -90,6 +88,16 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     /**
+     * Called when the user clicks the link to go to login.
+     * Starts the login activity.
+     * @param view The clicked view
+     */
+    public void startLogin(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    /**
      * Attempts to register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual registration attempt is made.
@@ -100,8 +108,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         // Reset errors.
-        mFirstNameView.setError(null);
-        mLastNameView.setError(null);
+        mNameView.setError(null);
         mPhoneNumberView.setError(null);
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -112,22 +119,15 @@ public class RegistrationActivity extends AppCompatActivity {
         String password = mPasswordView.getText().toString();
         String confirmPassword = mConfirmPasswordView.getText().toString();
         String phoneNumber = mPhoneNumberView.getText().toString();
-        String firstName = mFirstNameView.getText().toString();
-        String lastName = mLastNameView.getText().toString();
+        String firstName = mNameView.getText().toString();
 
         boolean cancel = false;
         List<View> focusView = new LinkedList<>();
 
         // Check for a valid first name.
         if (TextUtils.isEmpty(firstName)) {
-            mFirstNameView.setError("First name is required");
-            focusView.add(mFirstNameView);
-            cancel = true;
-        }
-
-        if (TextUtils.isEmpty(lastName)) {
-            mLastNameView.setError("Last name is required");
-            focusView.add(mLastNameView);
+            mNameView.setError("First name is required");
+            focusView.add(mNameView);
             cancel = true;
         }
 
@@ -176,7 +176,7 @@ public class RegistrationActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new RegistrationTask(firstName, lastName, parsedPhone,
+            mAuthTask = new RegistrationTask(firstName, parsedPhone,
                     email, password, this);
             mAuthTask.execute((Void) null);
         }
@@ -222,16 +222,14 @@ public class RegistrationActivity extends AppCompatActivity {
     public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mFirstName;
-        private final String mLastName;
         private final String mPhoneNumber;
         private final String mEmail;
         private final String mPassword;
         private final Context mContext;
 
-        RegistrationTask(String firstName, String lastName, String phoneNumber,
+        RegistrationTask(String firstName, String phoneNumber,
                          String email, String password, Context context) {
             mFirstName = firstName;
-            mLastName = lastName;
             mPhoneNumber = phoneNumber;
             mEmail = email;
             mPassword = password;

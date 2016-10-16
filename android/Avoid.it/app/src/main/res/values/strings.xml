@@ -2,8 +2,7 @@
     <string name="app_name">Avoid.it</string>
 
     <!-- Strings related to login/registration -->
-    <string name="prompt_first_name">First Name</string>
-    <string name="prompt_last_name">Last Name</string>
+    <string name="prompt_first_name">Name</string>
     <string name="prompt_phone">Phone Number</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

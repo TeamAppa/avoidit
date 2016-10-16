@@ -100,16 +100,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    /**
-     * Called when the user clicks the link to go registration.
-     * Starts the registration activity.
-     * @param view The clicked view
-     */
-    public void startRegistration(View view) {
-        Intent intent = new Intent(this, RegistrationActivity.class);
-        startActivity(intent);
-    }
-
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
