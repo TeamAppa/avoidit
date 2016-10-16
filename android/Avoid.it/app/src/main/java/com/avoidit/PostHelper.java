@@ -75,33 +75,11 @@ public class PostHelper {
                 success = false;
             }
 
+            return response;
+
         } catch (Exception e) {
             Log.d("com.avoidit", e.getMessage());
             return null;
-        }
-
-        try {
-            JSONObject json_resp = new JSONObject(response);
-
-            if (success) {
-                String token = json_resp.get("token").toString();
-
-                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString("token", token);
-
-                editor.commit();
-            } else {
-                String err_msg = json_resp.get("message_extra").toString();
-                Log.d("com.avoidit", err_msg);
-                // Display error message somewhere.
-            }
-
-            return success;
-
-        } catch (JSONException je) {
-            Log.d("com.avoid.it", "JSON Error");
-            return false;
         }
     }
 }
