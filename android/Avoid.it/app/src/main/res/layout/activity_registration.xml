@@ -111,15 +111,6 @@
                 android:text="@string/action_register"
                 android:textStyle="bold" />
 
-            <!-- Registration progress -->
-            <ProgressBar
-                android:id="@+id/registration_progress"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:visibility="gone" />
             <TextView
                 android:id="@+id/register_link"
                 android:layout_width="match_parent"
@@ -129,6 +120,17 @@
                 android:text="Already have an account?"
                 android:textColor="@color/colorLink"
                 android:onClick="startLogin"/>
+
+            <!-- Registration progress -->
+            <ProgressBar
+                android:id="@+id/registration_progress"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
         </LinearLayout>
 
     </ScrollView>

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,13 +23,28 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * A registration screen.
  */
 public class RegistrationActivity extends AppCompatActivity {
+
+    public static final String PREFS_NAME = "AvoidItPrefs";
 
     /**
      * Keep track of the registration task to ensure we can cancel it if requested.
@@ -240,15 +257,80 @@ public class RegistrationActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt registration - send params over network somehow.
 
+            URL url;
+            String requestURL = "https://sheltered-scrubland-29626.herokuapp.com/avoiditapi/createuser";
+            String response = "";
+            boolean success = false;
+
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                url = new URL(requestURL);
+
+                HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                // JSON Body
+                JSONObject root = new JSONObject();
+
+                root.put("first_name", mFirstName);
+                root.put("password", mPassword);
+                root.put("email", mEmail);
+                root.put("phone", mPhoneNumber);
+
+                String str = root.toString();
+                OutputStream os = conn.getOutputStream();
+                os.write(str.getBytes("UTF-8"));
+
+                int responseCode = conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                    String line;
+                    BufferedReader br = new BufferedReader(new InputStreamReader(
+                            conn.getInputStream()));
+                    while ((line = br.readLine()) != null) {
+                        response += line;
+                    }
+
+                    success = true;
+                } else {
+                    Log.d("com.avoidit", responseCode + "");
+                    success = false;
+                }
+
+            } catch (Exception e) {
+                Log.d("com.avoidit", e.getMessage());
                 return false;
             }
 
-            // TODO: register the new account here.
-            return true;
+            Log.d("com.avoidit", response);
+
+            try {
+                JSONObject json_resp = new JSONObject(response);
+
+                if (success) {
+                    String token = json_resp.get("token").toString();
+
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("token", token);
+
+                    editor.commit();
+                } else {
+                    String err_msg = json_resp.get("message_extra").toString();
+                    Log.d("com.avoidit", err_msg);
+                    // Display error message somewhere.
+                }
+
+                return success;
+
+            } catch (JSONException je) {
+                Log.d("com.avoid.it", "JSON Error");
+                return false;
+            }
         }
 
         @Override
