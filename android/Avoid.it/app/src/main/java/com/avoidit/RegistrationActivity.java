@@ -70,6 +70,7 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        setTitle(R.string.title_activity_registration);
         // Set up the registration form.
         mEmailView = (EditText) findViewById(R.id.email);
         mNameView = (EditText) findViewById(R.id.firstName);
