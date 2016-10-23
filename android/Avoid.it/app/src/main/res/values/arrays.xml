@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="example_entries">
+        <item> McDonalds </item>
+        <item>Panda Express</item>
+        <item> Starbucks </item>
+        <item> Burger King </item>
+    </string-array>
+
+    <string-array name="alert_types">
+        <item> Text message </item>
+        <item> Alarm </item>
+    </string-array>
+
+    <string-array name="example_contacts">
+        <item> Ben Billy </item>
+        <item> No Face </item>
+    </string-array>
+</resources>

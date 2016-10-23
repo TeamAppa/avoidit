@@ -191,7 +191,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         if (cancel) {
-            // There was an error; don't attempt registation and focus each
+            // There was an error; don't attempt registration and focus each
             // form field with an error.
             for (View fv : focusView) {
                 fv.requestFocus();
@@ -288,7 +288,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("token", token);
 
-                    editor.commit();
+                    editor.apply();
                 } else {
                     JSONArray errors = json_resp.getJSONArray("message");
                     String err_msg = errors.join("\n").replace("\"", "");
