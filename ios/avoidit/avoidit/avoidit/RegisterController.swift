@@ -17,12 +17,34 @@ class RegisterController: UIViewController {
     @IBOutlet var password: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(RegisterController.dismissKeyboard))
+        
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(tap)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //extract token and see if user is already logged in
+        if let token = UserDefaults.standard.value(forKey: "token") {
+            print("TOKEN ON APP LOAD: ")
+            print(token)
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "successfulRegister", sender: self)
+            }
+        } else {
+            print("user needs to login")
+        }
+       
+        
+        
     }
     
 
@@ -58,7 +80,21 @@ class RegisterController: UIViewController {
             
             self.present(phoneAlert, animated: true, completion: nil)
         } else {
-            self.performSegue(withIdentifier: "successfulRegister", sender: self)
+            //attempt a post
+            let (success, message) = postAttempt()
+            if (!success) {
+                let registerError = UIAlertController(title: "Error Registering", message: message, preferredStyle: UIAlertControllerStyle.alert)
+                
+                registerError.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
+                
+                self.present(registerError, animated: true, completion: nil)
+            } else {
+                print("SUCCESSFUL REGISTRATION")
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "successfulRegister", sender: self)
+                }
+                
+            }
         }
         
     }
@@ -84,6 +120,90 @@ class RegisterController: UIViewController {
     
     func validPhone(value: String) -> Bool {
         return !value.isEmpty
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    
+    func postAttempt() -> (Bool, String){
+        var request = URLRequest(url: URL(string: "https://sheltered-scrubland-29626.herokuapp.com/avoiditapi/createuser")!)
+        var success = true
+        var message = ""
+        request.httpMethod = "POST"
+        var complete = false
+        var jsonString = "{\"first_name\":\"" + name.text! + "\","
+        
+        jsonString += "\"phone\":\"" + phone.text! + "\","
+        
+        jsonString += "\"password\":\"" + password.text! + "\","
+        
+        jsonString += "\"email\":\"" + email.text! + "\"}"
+        
+        print("BEFORE POST: " + jsonString)
+        
+        request.httpBody = jsonString.data(using: .utf8)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                print("error=\(error)")
+                return
+            }
+            let httpStatus = response as? HTTPURLResponse
+            if (httpStatus?.statusCode != 200) {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus?.statusCode)")
+                print("response = \(response)")
+                
+            } else {
+                //determine what to do with a response
+                let responseString = String(data: data, encoding: .utf8)
+                print("responseString = \(responseString)")
+                
+                do{
+                    
+                    let json = try JSONSerialization.jsonObject(with: data, options:.allowFragments)
+                    print("printing json")
+                    print(json)
+                    let dictionary = json as? [String: Any]
+                    print("DICTIONARY")
+                    print(dictionary)
+                    let messageArr = dictionary!["message"] as? NSArray
+                    print(messageArr!)
+                    print("------")
+                    print(messageArr?[0])
+                    if((messageArr?[0] as! String).contains("Account created")) {
+                        //success full creation of account
+                        let token = dictionary?["token"]
+                        print(token)
+                        message = messageArr?[0] as! String
+                        
+                    } else {
+                        //acount creation failure
+                        print("ERROR");
+                        success = false
+                        message = messageArr?[0] as! String
+                        
+            
+                    }
+                    
+                }catch {
+                    print("Error with Json: \(error)")
+                }
+       
+            }
+            
+            complete = true;
+            
+            
+        }
+        task.resume()
+        while (!complete) {
+            //do nothing
+        }
+        return (success, message)
+        
+        
     }
 
 }

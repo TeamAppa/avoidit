@@ -20,6 +20,15 @@ class ProfileController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func logout(_ sender: AnyObject) {
+        //clear the token and send a user to register page
+        UserDefaults.standard.removeObject(forKey: "token")
+        UserDefaults.standard.synchronize()
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "logout", sender: self)
+        }
+        
+    }
 
 }
 

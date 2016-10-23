@@ -13,6 +13,11 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        //print current user token
+        if let token = UserDefaults.standard.value(forKey: "token") {
+            print("CURRENT USER TOKEN: ")
+            print(token)
+        }
     }
     
     
