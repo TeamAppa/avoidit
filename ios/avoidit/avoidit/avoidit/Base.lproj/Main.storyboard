@@ -24,12 +24,27 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fLF-kM-DP8">
+                                    <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                    <state key="normal" title="+">
+                                        <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <segue destination="YaQ-5b-Xbc" kind="popoverPresentation" popoverAnchorView="fLF-kM-DP8" id="OKG-Wp-qsX">
+                                            <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
+                                        </segue>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="0.34593108389999999" green="0.66666666669999997" blue="0.5179395671" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstItem="5DW-Y3-dsC" firstAttribute="centerY" secondItem="BOT-78-MGa" secondAttribute="centerY" id="0r4-Oi-GLa"/>
+                                <constraint firstItem="fLF-kM-DP8" firstAttribute="leading" secondItem="5DW-Y3-dsC" secondAttribute="trailing" priority="250" constant="65" id="4IV-PI-jKu"/>
+                                <constraint firstAttribute="trailing" secondItem="fLF-kM-DP8" secondAttribute="trailing" constant="25" id="8sB-TM-Kn0"/>
                                 <constraint firstItem="5DW-Y3-dsC" firstAttribute="centerX" secondItem="BOT-78-MGa" secondAttribute="centerX" id="LT2-So-oh6"/>
                                 <constraint firstItem="5DW-Y3-dsC" firstAttribute="centerX" secondItem="BOT-78-MGa" secondAttribute="centerX" id="W1B-xn-l6S"/>
+                                <constraint firstItem="fLF-kM-DP8" firstAttribute="top" secondItem="BOT-78-MGa" secondAttribute="top" priority="749" constant="30" id="kQU-Ky-FuX"/>
+                                <constraint firstItem="fLF-kM-DP8" firstAttribute="centerY" secondItem="BOT-78-MGa" secondAttribute="centerY" id="oBD-6a-JDo"/>
                             </constraints>
                         </view>
                         <prototypes>
@@ -56,11 +71,84 @@
                             <outlet property="delegate" destination="9pv-A4-QxB" id="zF5-Kp-nkb"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Home" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="first" id="mtX-yB-fri"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2240.8000000000002" y="-323.38830584707648"/>
+        </scene>
+        <!--New Rule Controller-->
+        <scene sceneID="3Io-6B-wvw">
+            <objects>
+                <viewController id="YaQ-5b-Xbc" customClass="NewRuleController" customModule="avoidit" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gac-R8-Zde"/>
+                        <viewControllerLayoutGuide type="bottom" id="7aF-wo-IYP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="K8a-q2-O7V">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VI3-ES-2J9">
+                                <frame key="frameInset" minY="20" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="New Rule" id="Oq3-gO-yVQ">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="vdY-Ym-RHb">
+                                            <connections>
+                                                <segue destination="9pv-A4-QxB" kind="showDetail" id="myC-xY-qYx"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Save" id="yfX-qA-gdT"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Fw-xr-ydj">
+                                <frame key="frameInset" minY="64" width="375" height="603"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lDa-8P-1hN">
+                                        <rect key="frame" x="27" y="48" width="320" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tbr-hj-W08">
+                                        <rect key="frame" x="0.0" y="311" width="375" height="62"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="YaQ-5b-Xbc" id="CfZ-5P-sCS"/>
+                                            <outlet property="delegate" destination="YaQ-5b-Xbc" id="rji-Ub-j1h"/>
+                                        </connections>
+                                    </pickerView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rule Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dfx-4p-ZWq">
+                                        <rect key="frame" x="27" y="25" width="83" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Alert Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5sl-AS-aCg">
+                                        <rect key="frame" x="27" y="282" width="79" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="alertType" destination="Tbr-hj-W08" id="IBM-Am-3Wu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DIQ-Wj-FkW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3026.4000000000001" y="-266.71664167916043"/>
         </scene>
         <!--Profile-->
         <scene sceneID="wg7-f3-ORb">
@@ -86,7 +174,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uLg-1v-GHk">
-                                <frame key="frameInset" minX="128" minY="538" maxX="129" maxY="83"/>
+                                <frame key="frameInset" minX="128" minY="538" maxX="129" maxY="62"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.34593108389999999" green="0.66666666669999997" blue="0.5179395671" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -113,7 +201,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2241" y="368"/>
+            <point key="canvasLocation" x="2241" y="433"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -132,7 +220,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1223" y="-298"/>
+            <point key="canvasLocation" x="970" y="-370"/>
         </scene>
         <!--Register-->
         <scene sceneID="j1p-tZ-ri7">
@@ -402,7 +490,8 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LdJ-CD-KGk"/>
+        <segue reference="myC-xY-qYx"/>
         <segue reference="hAe-sE-7QX"/>
+        <segue reference="LdJ-CD-KGk"/>
     </inferredMetricsTieBreakers>
 </document>

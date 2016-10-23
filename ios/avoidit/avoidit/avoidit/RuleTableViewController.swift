@@ -22,8 +22,8 @@ class RuleTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ruleData = [Rule(name: "rule 1"),
-                    Rule(name: "rule 2")]
+        ruleData = [Rule(name: "Avoid Starbucks"),
+                    Rule(name: "Avoid Fast-Food")]
         
 
         // Uncomment the following line to preserve selection between presentations
