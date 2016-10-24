@@ -102,6 +102,18 @@ public class RegistrationActivity extends AppCompatActivity {
 
         mRegistrationFormView = findViewById(R.id.registration_form);
         mProgressView = findViewById(R.id.registration_progress);
+
+        checkIfTokenExists();
+    }
+
+    private void checkIfTokenExists() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        String token = settings.getString("token","null");
+        if (token != "null") {
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     /**
