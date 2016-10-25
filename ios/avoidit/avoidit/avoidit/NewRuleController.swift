@@ -7,12 +7,11 @@
 //
 import UIKit
 
-class NewRuleController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class NewRuleController: UIViewController {
     
     @IBOutlet var alertType: UIPickerView!
     
-    var alertDataSource = ["Text", "Alarm"]
-    
+    @IBOutlet var ruleName: UITextField!
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
@@ -21,23 +20,31 @@ class NewRuleController: UIViewController, UIPickerViewDelegate, UIPickerViewDat
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         //alertType.
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(RegisterController.dismissKeyboard))
+        
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(tap)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return alertDataSource.count
+
+    @IBAction func saveRule(_ sender: AnyObject) {
+        ruleData.append(Rule(name: ruleName.text!))
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "toMyRules", sender: self)
+        }
     }
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return alertDataSource[row]
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
     
     

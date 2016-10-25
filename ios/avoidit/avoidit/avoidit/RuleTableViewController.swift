@@ -12,18 +12,17 @@ struct Rule {
     let name : String
 }
 
+var ruleData = [Rule(name: "Avoid Ex-Girlfriends"),
+                Rule(name: "Avoid Pricey Food")]
+
 class RuleTableViewController: UITableViewController {
     
-    var ruleData = [Rule]()
-    
+
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ruleData = [Rule(name: "Avoid Starbucks"),
-                    Rule(name: "Avoid Fast-Food")]
         
 
         // Uncomment the following line to preserve selection between presentations
