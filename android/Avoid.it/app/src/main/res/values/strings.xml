@@ -98,4 +98,8 @@
     <string name="pref_header_data_sync">Data &amp; sync</string>
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string name="prompt_contact_phonenumber">Contact phonenumber</string>
+    <string name="title_activity_add_new_entry">AddNewEntryActivity</string>
+    <string name="prompt_location">Location</string>
+    <string name="prompt_category">Category</string>
+    <string name="prompt_price">Price</string>
 </resources>
