@@ -48,13 +48,27 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/prompt_alert_type"/>
-    <Spinner
-        android:id="@+id/alert_spinner"
+
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
-        android:spinnerMode="dialog"/>
+        android:orientation="horizontal"
+        android:checkedButton="@+id/radioButtonTextMessage">
+        <RadioButton
+            android:text="Text message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButtonTextMessage"
+            android:layout_weight="1"
+            />
+
+        <RadioButton
+            android:text="Alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButtonAlarm"
+            android:layout_weight="1" />
+    </RadioGroup>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
