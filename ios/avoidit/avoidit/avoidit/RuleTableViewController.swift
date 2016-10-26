@@ -8,18 +8,13 @@
 
 import UIKit
 
-struct Rule {
-    let name : String
-}
-
-var ruleData = [Rule(name: "Avoid Ex-Girlfriends"),
-                Rule(name: "Avoid Pricey Food")]
 
 class RuleTableViewController: UITableViewController {
     
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        initializeRules()
     }
     override func viewDidLoad() {
         super.viewDidLoad()

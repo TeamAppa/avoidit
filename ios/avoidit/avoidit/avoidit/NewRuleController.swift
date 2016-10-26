@@ -35,7 +35,7 @@ class NewRuleController: UIViewController {
     }
 
     @IBAction func saveRule(_ sender: AnyObject) {
-        ruleData.append(Rule(name: ruleName.text!))
+        ruleData.append(Rule(name: ruleName.text!, entries: [], numPasses: 3, contactName: "avery", contactNumber: "44949494"))
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "toMyRules", sender: self)
         }
@@ -46,11 +46,6 @@ class NewRuleController: UIViewController {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
-    
-    
-    
-    
-    
     
     
 }

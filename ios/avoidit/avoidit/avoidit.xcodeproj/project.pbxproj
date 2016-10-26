@@ -11,6 +11,7 @@
 		280D66391DB2C4BF00262E83 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280D66381DB2C4BF00262E83 /* LoginController.swift */; };
 		281DB3EC1DBD1B4700F338C3 /* RuleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281DB3EB1DBD1B4700F338C3 /* RuleTableViewController.swift */; };
 		281DB3EE1DBD29AB00F338C3 /* NewRuleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281DB3ED1DBD29AB00F338C3 /* NewRuleController.swift */; };
+		28A9ABEB1DC102A0009B0444 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A9ABEA1DC102A0009B0444 /* Rule.swift */; };
 		28B455DA1DA1DD7F00120D5C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B455D91DA1DD7F00120D5C /* AppDelegate.swift */; };
 		28B455DC1DA1DD7F00120D5C /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B455DB1DA1DD7F00120D5C /* HomeController.swift */; };
 		28B455DE1DA1DD7F00120D5C /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B455DD1DA1DD7F00120D5C /* ProfileController.swift */; };
@@ -43,6 +44,7 @@
 		280D66381DB2C4BF00262E83 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		281DB3EB1DBD1B4700F338C3 /* RuleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuleTableViewController.swift; sourceTree = "<group>"; };
 		281DB3ED1DBD29AB00F338C3 /* NewRuleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRuleController.swift; sourceTree = "<group>"; };
+		28A9ABEA1DC102A0009B0444 /* Rule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		28B455D61DA1DD7F00120D5C /* avoidit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = avoidit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28B455D91DA1DD7F00120D5C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28B455DB1DA1DD7F00120D5C /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				28B455E71DA1DD7F00120D5C /* Info.plist */,
 				281DB3EB1DBD1B4700F338C3 /* RuleTableViewController.swift */,
 				281DB3ED1DBD29AB00F338C3 /* NewRuleController.swift */,
+				28A9ABEA1DC102A0009B0444 /* Rule.swift */,
 			);
 			path = avoidit;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				28B455DE1DA1DD7F00120D5C /* ProfileController.swift in Sources */,
 				28B455DA1DA1DD7F00120D5C /* AppDelegate.swift in Sources */,
 				28B455DC1DA1DD7F00120D5C /* HomeController.swift in Sources */,
+				28A9ABEB1DC102A0009B0444 /* Rule.swift in Sources */,
 				281DB3EE1DBD29AB00F338C3 /* NewRuleController.swift in Sources */,
 				280D66391DB2C4BF00262E83 /* LoginController.swift in Sources */,
 			);
