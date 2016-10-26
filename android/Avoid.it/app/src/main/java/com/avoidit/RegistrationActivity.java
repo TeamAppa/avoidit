@@ -274,7 +274,7 @@ public class RegistrationActivity extends AppCompatActivity {
             param.put("email", mEmail);
             param.put("password", mPassword);
 
-            String response = PostHelper.post("/createuser", param);
+            String response = HttpHelper.post("/createuser", param);
 
             try {
                 JSONObject json_resp = new JSONObject(response);

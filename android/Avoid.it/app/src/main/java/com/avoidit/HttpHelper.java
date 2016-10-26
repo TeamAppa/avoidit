@@ -2,10 +2,7 @@ package com.avoidit;
 
 import android.content.SharedPreferences;
 import android.util.Log;
-
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -17,7 +14,7 @@ import javax.net.ssl.HttpsURLConnection;
 /**
  * Created by ngraves3 on 10/16/16.
  */
-public class PostHelper {
+public class HttpHelper {
 
     private static String server = "https://sheltered-scrubland-29626.herokuapp.com/avoiditapi";
 
@@ -38,6 +35,38 @@ public class PostHelper {
         boolean success = false;
 
         try {
+            // JSON Body
+            JSONObject root = new JSONObject();
+
+            for (String key : params.keySet()) {
+                root.put(key, params.get(key));
+            }
+
+            return postJson(endpoint, root);
+
+        } catch (Exception e) {
+            Log.d("com.avoidit", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Takes the endpoint and the JSON body and makes a post
+     * @param endpoint The API endpoint.
+     * @param body The JSON for the post body.
+     * @return The response returned from the server. Returns null on error.
+     */
+    public static String postJson(String endpoint, JSONObject body) {
+
+        if (!endpoint.startsWith("/")) {
+            endpoint = "/" + endpoint;
+        }
+
+        URL url;
+        String response = "";
+        boolean success = false;
+
+        try {
             url = new URL(server + endpoint);
 
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
@@ -47,14 +76,7 @@ public class PostHelper {
 
             conn.setRequestProperty("Content-Type", "application/json");
 
-            // JSON Body
-            JSONObject root = new JSONObject();
-
-            for (String key : params.keySet()) {
-                root.put(key, params.get(key));
-            }
-
-            String str = root.toString();
+            String str = body.toString();
             OutputStream os = conn.getOutputStream();
             os.write(str.getBytes("UTF-8"));
 
@@ -81,5 +103,6 @@ public class PostHelper {
             Log.d("com.avoidit", e.getMessage());
             return null;
         }
+
     }
 }

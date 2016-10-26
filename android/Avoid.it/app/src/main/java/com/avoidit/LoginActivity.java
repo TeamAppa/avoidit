@@ -303,7 +303,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             HashMap<String, String> json_params = new HashMap<>();
             json_params.put("username", mEmail);
             json_params.put("password", mPassword);
-            String response = PostHelper.post("/gettoken", json_params);
+            String response = HttpHelper.post("/gettoken", json_params);
 
             try {
                 JSONObject json_resp = new JSONObject(response);
