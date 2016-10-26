@@ -19,21 +19,25 @@ struct Rule {
 }
 
 protocol RuleEntry {
+    var ruleId : String {get set}
 
 }
 
 struct PriceEntry : RuleEntry {
+    internal var ruleId: String
     var displayName : String
     var avoidPrices : [Int]
 }
 
 struct CategoryEntry : RuleEntry {
+    internal var ruleId: String
     var displayName : String
     var categoryId : String
     
 }
 
 struct LocationEntry : RuleEntry {
+    internal var ruleId: String
     var displayName : String
     var locationId : String
     

@@ -14,7 +14,9 @@ class RuleTableViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        initializeRules()
+        if (ruleData.count == 0) {
+            initializeRules()
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
