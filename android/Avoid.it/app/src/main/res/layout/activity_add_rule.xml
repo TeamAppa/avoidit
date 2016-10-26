@@ -38,7 +38,7 @@
         android:paddingStart="8dp"
         android:spinnerMode="dialog"/>
     <Button
-        android:text="@string/add_new_entry"
+        android:text="@string/add_new_entry_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/add_new_entry"/>
@@ -70,7 +70,7 @@
         android:paddingStart="8dp"
         android:spinnerMode="dialog"/>
     <Button
-        android:text="@string/add_new_contact"
+        android:text="@string/add_new_contact_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/add_new_contact"/>
@@ -88,7 +88,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:text="@string/save_rule"
+        android:text="@string/save_rule_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/save_rule" />

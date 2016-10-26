@@ -69,8 +69,6 @@ public class Home extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 // Open add rule activity
                 Intent intent = new Intent(getContext(), AddRuleActivity.class);
                 startActivity(intent);
