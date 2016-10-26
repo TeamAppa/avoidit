@@ -16,4 +16,8 @@
         <item> Ben Billy </item>
         <item> No Face </item>
     </string-array>
+    <string-array name="example_rules">
+        <item> Avoid fast food</item>
+        <item> Avoid expensive restaurants </item>
+    </string-array>
 </resources>

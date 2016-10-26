@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,21 +29,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * A registration screen.
@@ -110,10 +98,9 @@ public class RegistrationActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         String token = settings.getString("token","null");
         if (token != "null") {
-            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
             startActivity(intent);
         }
-
     }
 
     /**
@@ -326,8 +313,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
             if (success) {
                 finish();
-                // TODO: Start HomeActivity?
-                Intent intent = new Intent(mContext, HomeActivity.class);
+                // TODO: Start ContentActivity?
+                Intent intent = new Intent(mContext, ContentActivity.class);
                 startActivity(intent);
 
             } else {
