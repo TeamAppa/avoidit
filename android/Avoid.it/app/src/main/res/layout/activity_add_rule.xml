@@ -41,7 +41,7 @@
         android:text="@string/add_new_entry_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/add_new_entry"/>
+        android:id="@+id/add_new_entry_button"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -73,7 +73,7 @@
         android:text="@string/add_new_contact_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/add_new_contact"/>
+        android:id="@+id/add_new_contact_button"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -91,5 +91,5 @@
         android:text="@string/save_rule_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/save_rule" />
+        android:id="@+id/save_rule_button" />
 </LinearLayout>

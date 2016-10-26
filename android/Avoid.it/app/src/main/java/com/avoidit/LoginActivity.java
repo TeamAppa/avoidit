@@ -317,15 +317,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     editor.putString("token", token);
 
                     editor.apply();
-
                     Log.d("login", token);
-
                 } else {
                     JSONArray errors = json_resp.getJSONArray("non_field_errors");
                     String err_msg = errors.join("\n").replace("\"", "");
 
                     Log.d("com.avoidit", err_msg);
-
                     // Display error message somewhere.
                     Snackbar.make(findViewById(R.id.registration_progress),
                             R.string.app_name, Snackbar.LENGTH_LONG).setText(err_msg).show();

@@ -312,11 +312,9 @@ public class RegistrationActivity extends AppCompatActivity {
             mAuthTask = null;
 
             if (success) {
-                finish();
                 // TODO: Start ContentActivity?
                 Intent intent = new Intent(mContext, ContentActivity.class);
                 startActivity(intent);
-
             } else {
                 showProgress(false);
                 // TODO: Implement error notification.
