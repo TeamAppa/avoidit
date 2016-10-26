@@ -12,9 +12,7 @@ public class AddRuleActivity extends AppCompatActivity {
     private ArrayAdapter<CharSequence> entryAdapter;
     private Spinner alertSpinner;
     private ArrayAdapter<CharSequence> alertAdapter;
-    private Spinner contactSpinner;
-    private ArrayAdapter<CharSequence> contactsAdapter;
-
+    
     private EditText ruleName;
     private EditText numberOfPasses;
 
@@ -29,27 +27,22 @@ public class AddRuleActivity extends AppCompatActivity {
         // Initiate spinners
         this.entrySpinner = (Spinner) findViewById(R.id.rule_spinner);
         this.alertSpinner = (Spinner) findViewById(R.id.alert_spinner);
-        this.contactSpinner = (Spinner) findViewById(R.id.contacts_spinner);
         this.ruleName = (EditText) findViewById(R.id.ruleName);
         this.numberOfPasses = (EditText) findViewById(R.id.numberOfPasses);
         this.addNewEntry = (Button) findViewById(R.id.add_new_entry_button);
-        this.addNewContactButton = (Button) findViewById(R.id.add_new_contact_button);
         this.saveRuleButton = (Button) findViewById(R.id.save_rule_button);
 
         // Create ArrayAdapters using the string array and a default spinner layout
         this.entryAdapter = new ArrayAdapter<CharSequence>(this,android.R.layout.simple_spinner_item);
         this.alertAdapter = new ArrayAdapter<CharSequence>(this,android.R.layout.simple_spinner_item);
-        this.contactsAdapter = new ArrayAdapter<CharSequence>(this,android.R.layout.simple_spinner_item);
 
         // Specify the layout to use when the list of choices appears
         this.entryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.alertAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.contactsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Apply the adapter to the spinner
         this.entrySpinner.setAdapter(entryAdapter);
         this.alertSpinner.setAdapter(alertAdapter);
-        this.contactSpinner.setAdapter(contactsAdapter);
 
         // Set a standard value for number of passes
         this.numberOfPasses.setText("3");

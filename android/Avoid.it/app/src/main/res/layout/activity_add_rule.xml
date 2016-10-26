@@ -56,24 +56,28 @@
         android:paddingStart="8dp"
         android:spinnerMode="dialog"/>
 
-    <!-- Spinner and button for contacts -->
-    <TextView
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/prompt_contacts"/>
-    <Spinner
-        android:id="@+id/contacts_spinner"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/contactName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_contact_name"
+            android:inputType="text"
+            android:maxLines="1"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
-        android:spinnerMode="dialog"/>
-    <Button
-        android:text="@string/add_new_contact_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_new_contact_button"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/contactPhonenumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_contact_phonenumber"
+            android:inputType="number"
+            android:maxLines="1"/>
+    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
