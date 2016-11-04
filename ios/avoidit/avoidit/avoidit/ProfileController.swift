@@ -24,6 +24,8 @@ class ProfileController: UIViewController {
         //clear the token and send a user to register page
         UserDefaults.standard.removeObject(forKey: "token")
         UserDefaults.standard.synchronize()
+        ruleEntries = [RuleEntry]() //This is where rule entries are stored as a rule is created
+        currentRule = Rule(name: "", entries: [], numPasses: 0, contactName: "", contactNumber: "", notificationType: "Text")
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "logout", sender: self)
         }

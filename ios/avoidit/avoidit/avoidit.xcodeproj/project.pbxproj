@@ -11,9 +11,11 @@
 		280D66391DB2C4BF00262E83 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280D66381DB2C4BF00262E83 /* LoginController.swift */; };
 		281DB3EC1DBD1B4700F338C3 /* RuleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281DB3EB1DBD1B4700F338C3 /* RuleTableViewController.swift */; };
 		281DB3EE1DBD29AB00F338C3 /* NewRuleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281DB3ED1DBD29AB00F338C3 /* NewRuleController.swift */; };
+		28569F921DC146F000BCF6A9 /* LocationEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28569F911DC146F000BCF6A9 /* LocationEntryController.swift */; };
+		28569F941DC14DDD00BCF6A9 /* PriceEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28569F931DC14DDD00BCF6A9 /* PriceEntryController.swift */; };
+		28569F961DC14DEF00BCF6A9 /* CategoryEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28569F951DC14DEF00BCF6A9 /* CategoryEntryController.swift */; };
 		28A9ABEB1DC102A0009B0444 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A9ABEA1DC102A0009B0444 /* Rule.swift */; };
 		28B455DA1DA1DD7F00120D5C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B455D91DA1DD7F00120D5C /* AppDelegate.swift */; };
-		28B455DC1DA1DD7F00120D5C /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B455DB1DA1DD7F00120D5C /* HomeController.swift */; };
 		28B455DE1DA1DD7F00120D5C /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B455DD1DA1DD7F00120D5C /* ProfileController.swift */; };
 		28B455E11DA1DD7F00120D5C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28B455DF1DA1DD7F00120D5C /* Main.storyboard */; };
 		28B455E31DA1DD7F00120D5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28B455E21DA1DD7F00120D5C /* Assets.xcassets */; };
@@ -44,10 +46,12 @@
 		280D66381DB2C4BF00262E83 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		281DB3EB1DBD1B4700F338C3 /* RuleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuleTableViewController.swift; sourceTree = "<group>"; };
 		281DB3ED1DBD29AB00F338C3 /* NewRuleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRuleController.swift; sourceTree = "<group>"; };
+		28569F911DC146F000BCF6A9 /* LocationEntryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationEntryController.swift; sourceTree = "<group>"; };
+		28569F931DC14DDD00BCF6A9 /* PriceEntryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceEntryController.swift; sourceTree = "<group>"; };
+		28569F951DC14DEF00BCF6A9 /* CategoryEntryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryEntryController.swift; sourceTree = "<group>"; };
 		28A9ABEA1DC102A0009B0444 /* Rule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		28B455D61DA1DD7F00120D5C /* avoidit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = avoidit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28B455D91DA1DD7F00120D5C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		28B455DB1DA1DD7F00120D5C /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		28B455DD1DA1DD7F00120D5C /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		28B455E01DA1DD7F00120D5C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28B455E21DA1DD7F00120D5C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -110,7 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				28B455D91DA1DD7F00120D5C /* AppDelegate.swift */,
-				28B455DB1DA1DD7F00120D5C /* HomeController.swift */,
 				28B455DD1DA1DD7F00120D5C /* ProfileController.swift */,
 				280D66361DB2BED400262E83 /* RegisterController.swift */,
 				280D66381DB2C4BF00262E83 /* LoginController.swift */,
@@ -121,6 +124,9 @@
 				281DB3EB1DBD1B4700F338C3 /* RuleTableViewController.swift */,
 				281DB3ED1DBD29AB00F338C3 /* NewRuleController.swift */,
 				28A9ABEA1DC102A0009B0444 /* Rule.swift */,
+				28569F911DC146F000BCF6A9 /* LocationEntryController.swift */,
+				28569F931DC14DDD00BCF6A9 /* PriceEntryController.swift */,
+				28569F951DC14DEF00BCF6A9 /* CategoryEntryController.swift */,
 			);
 			path = avoidit;
 			sourceTree = "<group>";
@@ -206,7 +212,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Avery Dingler";
 				TargetAttributes = {
 					28B455D51DA1DD7F00120D5C = {
@@ -280,12 +286,14 @@
 			files = (
 				280D66371DB2BED400262E83 /* RegisterController.swift in Sources */,
 				281DB3EC1DBD1B4700F338C3 /* RuleTableViewController.swift in Sources */,
+				28569F961DC14DEF00BCF6A9 /* CategoryEntryController.swift in Sources */,
 				28B455DE1DA1DD7F00120D5C /* ProfileController.swift in Sources */,
 				28B455DA1DA1DD7F00120D5C /* AppDelegate.swift in Sources */,
-				28B455DC1DA1DD7F00120D5C /* HomeController.swift in Sources */,
+				28569F941DC14DDD00BCF6A9 /* PriceEntryController.swift in Sources */,
 				28A9ABEB1DC102A0009B0444 /* Rule.swift in Sources */,
 				281DB3EE1DBD29AB00F338C3 /* NewRuleController.swift in Sources */,
 				280D66391DB2C4BF00262E83 /* LoginController.swift in Sources */,
+				28569F921DC146F000BCF6A9 /* LocationEntryController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,6 +366,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -407,6 +416,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

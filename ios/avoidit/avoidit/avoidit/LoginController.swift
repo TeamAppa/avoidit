@@ -85,7 +85,7 @@ class LoginController: UIViewController {
                     let json = try JSONSerialization.jsonObject(with: data, options:.allowFragments)
                     debugPrint("JSON: " , json)
                     let dictionary = json as? [String: String]
-                    debugPrint("DICTIONARY: ", dictionary)
+                    debugPrint("DICTIONARY: ", dictionary ?? "ERROR")
                     if let token = dictionary!["token"] {
                         print("token: " + token)
                         success = true

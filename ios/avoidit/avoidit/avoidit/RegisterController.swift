@@ -153,6 +153,8 @@ class RegisterController: UIViewController {
             if (httpStatus?.statusCode != 200) {           // check for http errors
                 print("statusCode should be 200, but is \(httpStatus?.statusCode)")
                 print("response = \(response)")
+                success = false
+                message = "email and password must be unique"
                 
             } else {
                 //determine what to do with a response
@@ -166,15 +168,17 @@ class RegisterController: UIViewController {
                     print(json)
                     let dictionary = json as? [String: Any]
                     print("DICTIONARY")
-                    print(dictionary)
+                    print(dictionary ?? "ERROR")
                     let messageArr = dictionary!["message"] as? NSArray
                     print(messageArr!)
                     print("------")
-                    print(messageArr?[0])
+                    print(messageArr?[0] ?? "ERROR")
                     if((messageArr?[0] as! String).contains("Account created")) {
                         //success full creation of account
                         let token = dictionary?["token"]
-                        print(token)
+                        print(token ?? "ERROR")
+                        UserDefaults.standard.set(token, forKey: "token")
+                        UserDefaults.standard.synchronize()
                         message = messageArr?[0] as! String
                         
                     } else {
