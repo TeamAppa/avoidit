@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +35,8 @@ public class Home extends Fragment {
 
     private ListView ruleList;
     private ArrayAdapter<String> rules;
+
+    private RuleTempHolder ruleTempHolder;
 
     public Home() {
         // Required empty public constructor
@@ -71,9 +71,12 @@ public class Home extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         this.ruleList = (ListView) view.findViewById(R.id.ruleList);
-        String[] dummyArray = {"Item 1", "Item 2"};
+        String[] dummyArray = {"Avoid fast food", "Avoid coffee"};
         this.rules = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1,dummyArray);
         this.ruleList.setAdapter(this.rules);
+
+        // Class for temporary storing rules.
+        this.ruleTempHolder = new RuleTempHolder();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +84,7 @@ public class Home extends Fragment {
             public void onClick(View view) {
                 // Open add rule activity
                 Intent intent = new Intent(getContext(), AddRuleActivity.class);
+                RuleTempHolder.rules.add(new Rule());
                 startActivity(intent);
             }
         });

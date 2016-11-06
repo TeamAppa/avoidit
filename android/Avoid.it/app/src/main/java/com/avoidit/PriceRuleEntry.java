@@ -11,8 +11,9 @@ import java.util.List;
  */
 public class PriceRuleEntry extends AbstractRuleEntry<List<Integer>> {
 
-    public PriceRuleEntry(int ruleId, String typeName, String displayName, List<Integer> priceList) {
-        super(ruleId, typeName, displayName);
+    // int ruleId, String typeName, String displayName,
+    public PriceRuleEntry(List<Integer> priceList) {
+        super("PR","Avoid Price");
         mAvoidanceCriteria = priceList;
     }
 
@@ -20,4 +21,6 @@ public class PriceRuleEntry extends AbstractRuleEntry<List<Integer>> {
     protected void jsonifyCriteria(JSONObject json, List<Integer> avoidanceCriteria) throws JSONException {
         json.put("price_list", new JSONArray(mAvoidanceCriteria));
     }
+
+
 }

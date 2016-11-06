@@ -18,10 +18,18 @@ public abstract class AbstractRuleEntry<T> {
     private String mDisplayName;
     protected T mAvoidanceCriteria;
 
+    public AbstractRuleEntry() {
+    }
+
     public AbstractRuleEntry(int ruleId, String typeName, String displayName) {
         mRuleId = ruleId;
         mTypeName = typeName;
         mDisplayName = displayName;
+    }
+
+    public AbstractRuleEntry(String typeName, String displayName) {
+        this.mTypeName = typeName;
+        this.mDisplayName = displayName;
     }
 
     public void setRuleId(int ruleId) {
@@ -51,7 +59,7 @@ public abstract class AbstractRuleEntry<T> {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         try {
-            json.put("rule_id", mRuleId);
+            // json.put("rule_id", mRuleId);
             json.put("display_name", mDisplayName);
             json.put("type", mTypeName);
 

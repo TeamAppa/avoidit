@@ -26,34 +26,34 @@
 
     <!-- Spinner and button for rules -->
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/prompt_entries"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_entries"
+            android:layout_weight="1" />
+
         <Button
             android:text="@string/prompt_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/locationButton" />
+            android:id="@+id/location_entry_button"/>
 
         <Button
             android:text="@string/prompt_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/categoryButton" />
+            android:id="@+id/category_entry_button" />
 
         <Button
             android:text="@string/prompt_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/priceButton" />
+            android:id="@+id/price_entry_button" />
 
     </LinearLayout>
 
@@ -69,7 +69,7 @@
         android:orientation="horizontal"
         android:checkedButton="@+id/radioButtonTextMessage">
         <RadioButton
-            android:text="Text message"
+            android:text="Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radioButtonTextMessage"
