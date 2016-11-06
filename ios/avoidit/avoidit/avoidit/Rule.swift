@@ -12,9 +12,10 @@ var ruleData = [Rule]()
 
 var ruleEntries = [RuleEntry]() //This is where rule entries are stored as a rule is created
 
-var currentRule = Rule(name: "", entries: [], numPasses: 0, contactName: "", contactNumber: "", notificationType: "Text")
+var currentRule = Rule(id: "", name: "", entries: [], numPasses: 0, contactName: "", contactNumber: "", notificationType: "Text")
 
 struct Rule {
+    var id : String
     var name : String
     var entries = [RuleEntry]()
     var numPasses : Int
@@ -85,16 +86,6 @@ struct LocationEntry : RuleEntry {
 }
 
 
-func initializeRules() {
-    ruleData.append(Rule(name: "Avoid Ex-Girlfriends", entries: [], numPasses: 3, contactName: "avery", contactNumber: "44949494", notificationType: "Text"))
-    ruleData.append(Rule(name: "Avoid Taco Bell", entries: [], numPasses: 3, contactName: "avery", contactNumber: "44949494", notificationType: "Text"))
-    
-    //get rules from the database and populate the var 'ruleData'
-    //ruleEntries.append(LocationEntry(ruleId: "", displayName: "Avoid Fast Food", locationId: "3442"))
-    //ruleEntries.append(LocationEntry(ruleId: "", displayName: "Avoid Coffee", locationId: "3442"))
-    
-}
-
 func jsonRuleEntryArray(array : [RuleEntry]) -> String
 {
     var soln = "["
@@ -110,6 +101,85 @@ func jsonRuleEntryArray(array : [RuleEntry]) -> String
     }
     soln += "]"
     return soln
+}
+
+func sendLocation() {
+    print("SENDING LOCATION")
+}
+
+func loadRulesFromServer() {
+    //clear the local rules
+    ruleData = [Rule]()
+    var request = URLRequest(url: URL(string: "https://sheltered-scrubland-29626.herokuapp.com/avoiditapi/getrules")!)
+    var token = UserDefaults.standard.value(forKey: "token") as! String
+    token = "Token " + token
+    request.setValue(token, forHTTPHeaderField: "Authorization")
+    request.httpMethod = "GET"
+    request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+    var done = false
+    
+    
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        guard let data = data, error == nil else {                                                 // check for fundamental networking error
+            print("error=\(error)")
+            return
+        }
+        let httpStatus = response as? HTTPURLResponse
+        if (httpStatus?.statusCode != 200) {           // check for http errors
+            debugPrint("statusCode should be 200, but is \(httpStatus?.statusCode)")
+            debugPrint("response = \(response)")
+        } else {
+            //successfull login
+            let responseString = String(data: data, encoding: .utf8)
+            debugPrint("responseString = \(responseString)")
+            
+            do{
+                
+                let json = try JSONSerialization.jsonObject(with: data, options:.allowFragments)
+                debugPrint("JSON: " , json)
+                for anItem in json as! Dictionary<String, AnyObject> {
+                    //create a new rule
+                    var newRule = Rule(id: "", name: "", entries: [], numPasses: 0, contactName: "", contactNumber: "", notificationType: "")
+                    //print("=====NEW ITEM=====")
+                    //print(anItem)
+                    //print("KEY")
+                    //print (anItem.key)
+                    //print("VALUE")
+                    //print (anItem.value)
+                    newRule.id = anItem.key //set the id of the rule
+                    //iterate through the value
+                    let ruleValues = (anItem.value as? [String: Any])!
+                    newRule.numPasses = ruleValues["passes"] as! Int
+                    newRule.contactName = ruleValues["contact_name"] as! String
+                    newRule.contactNumber = ruleValues["contact_phone"] as! String
+                    newRule.name = ruleValues["rule_name"] as! String
+                    newRule.notificationType = "TEXT" //fix this when response is fixed
+                    
+                    //need to add the rules entries to the rule
+                    //rule entries are not added yet
+                    
+                    
+                    //add the rule to rule data
+                    ruleData.append(newRule)
+                }
+                
+            }catch {
+                print("Error with Json: \(error)")
+            }
+            
+            
+        }
+        //refresh the view controller here
+        done = true
+        
+    }
+    task.resume()
+    while(!done) {
+        //do nothing
+    }
+    
+    
+    
 }
 
 

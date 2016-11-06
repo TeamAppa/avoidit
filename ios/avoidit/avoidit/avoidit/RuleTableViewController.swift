@@ -11,16 +11,18 @@ import UIKit
 
 class RuleTableViewController: UITableViewController {
     
+    @IBOutlet var allRuleData: UITableView!
+    
+    func refreshRules() {
+        allRuleData.reloadData()
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        if (ruleData.count == 0) {
-            initializeRules()
-        }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

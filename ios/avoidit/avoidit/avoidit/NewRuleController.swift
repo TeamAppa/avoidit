@@ -67,7 +67,7 @@ class NewRuleController: UIViewController, UITableViewDelegate, UITableViewDataS
             currentRule.name = ruleName.text!
             currentRule.notificationType = alertType.titleForSegment(at: alertType.selectedSegmentIndex) ?? "Text"
             currentRule.entries = ruleEntries
-            ruleData.append(currentRule) //change this with a post to database
+            //ruleData.append(currentRule) //change this with a post to database
             let (success, message) = postRule()
             if (success) {
                 //print json for debugging purposes
@@ -76,7 +76,8 @@ class NewRuleController: UIViewController, UITableViewDelegate, UITableViewDataS
                 
                 //clear out rule that was created
                 ruleEntries = [RuleEntry]() //This is where rule entries are stored as a rule is created
-                currentRule = Rule(name: "", entries: [], numPasses: 0, contactName: "", contactNumber: "", notificationType: "Text")
+                currentRule = Rule(id: "", name: "", entries: [], numPasses: 0, contactName: "", contactNumber: "", notificationType: "Text")
+                loadRulesFromServer()
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "toMyRules", sender: self)
                 }
@@ -140,9 +141,6 @@ class NewRuleController: UIViewController, UITableViewDelegate, UITableViewDataS
         var token = UserDefaults.standard.value(forKey: "token") as! String
         token = "Token " + token
         request.setValue(token, forHTTPHeaderField: "Authorization")
-        
-        print("authorization below")
-        print("Token \(UserDefaults.standard.value(forKey: "token"))")
         
         var success = true
         var message = ""

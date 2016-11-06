@@ -34,6 +34,7 @@ class LoginController: UIViewController {
             //attempt to login
             let (success, message) = loginPost()
             if (success) {
+                loadRulesFromServer()
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "successfulLogin", sender: self)
                 }

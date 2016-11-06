@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import CoreLocation
 
-class RegisterController: UIViewController {
+class RegisterController: UIViewController, CLLocationManagerDelegate {
     
+    var locManager = CLLocationManager()
+    var timer = Timer()
     @IBOutlet var name: UITextField!
     @IBOutlet var phone: UITextField!
     @IBOutlet var email: UITextField!
@@ -32,16 +35,26 @@ class RegisterController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        locManager.requestWhenInUseAuthorization()
+        DispatchQueue.global(qos: .background).async {
+            // Background thread
+            
+            var timer = Timer()
+            DispatchQueue.main.async(execute: {
+                timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(RegisterController.sendLocation), userInfo: nil, repeats: true)
+            })
+        }
         //extract token and see if user is already logged in
-        if let token = UserDefaults.standard.value(forKey: "token") {
-            print("TOKEN ON APP LOAD: ")
-            print(token)
+        if UserDefaults.standard.value(forKey: "token") != nil {
+            loadRulesFromServer()
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "successfulRegister", sender: self)
             }
         } else {
             print("user needs to login")
         }
+        //load the rules from server when the app opens
+        
        
         
     }
@@ -206,6 +219,55 @@ class RegisterController: UIViewController {
         }
         return (success, message)
         
+        
+    }
+    func sendLocation() {
+        if UserDefaults.standard.value(forKey: "token") != nil {
+            print("SENDING LOCATION")
+            if( CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
+                CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
+                    print("IN HERE")
+            }
+            let latitude = locManager.location?.coordinate.latitude
+            let longitude = locManager.location?.coordinate.longitude
+            let locationJson = "{\"latitude\":\"\(latitude)\",\"longitude\":\"\(longitude)\"}"
+            print("LocationJson")
+            print(locationJson)
+            
+            //send to server
+            var request = URLRequest(url: URL(string: "https://sheltered-scrubland-29626.herokuapp.com/avoiditapi/postlocation")!)
+            var token = UserDefaults.standard.value(forKey: "token") as! String
+            token = "Token " + token
+            request.setValue(token, forHTTPHeaderField: "Authorization")
+            request.httpMethod = "POST"
+            request.httpBody = locationJson.data(using: .utf8)
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                    print("error=\(error)")
+                    return
+                }
+                let httpStatus = response as? HTTPURLResponse
+                if (httpStatus?.statusCode != 200) {           // check for http errors
+                    debugPrint("statusCode should be 200, but is \(httpStatus?.statusCode)")
+                    debugPrint("response = \(response)")
+                } else {
+                    //successfull login
+                    let responseString = String(data: data, encoding: .utf8)
+                    debugPrint("responseString = \(responseString)")
+                    
+                    
+                }
+                //refresh the view controller here
+
+                
+            }
+            task.resume()
+
+        } else {
+            print("USER NOT LOGGED IN. CAN'T SEND LOCATION")
+        }
         
     }
 
