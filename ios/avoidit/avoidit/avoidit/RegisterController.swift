@@ -11,7 +11,6 @@ import CoreLocation
 
 class RegisterController: UIViewController, CLLocationManagerDelegate {
     
-    var locManager = CLLocationManager()
     var timer = Timer()
     @IBOutlet var name: UITextField!
     @IBOutlet var phone: UITextField!
@@ -35,10 +34,8 @@ class RegisterController: UIViewController, CLLocationManagerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        locManager.requestWhenInUseAuthorization()
         DispatchQueue.global(qos: .background).async {
             // Background thread
-            
             var timer = Timer()
             DispatchQueue.main.async(execute: {
                 timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(RegisterController.sendLocation), userInfo: nil, repeats: true)
@@ -102,6 +99,7 @@ class RegisterController: UIViewController, CLLocationManagerDelegate {
                 self.present(registerError, animated: true, completion: nil)
             } else {
                 print("SUCCESSFUL REGISTRATION")
+                loadRulesFromServer()
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "successfulRegister", sender: self)
                 }
@@ -200,7 +198,6 @@ class RegisterController: UIViewController, CLLocationManagerDelegate {
                         success = false
                         message = messageArr?[0] as! String
                         
-            
                     }
                     
                 }catch {
@@ -223,47 +220,54 @@ class RegisterController: UIViewController, CLLocationManagerDelegate {
     }
     func sendLocation() {
         if UserDefaults.standard.value(forKey: "token") != nil {
+            let locManager = CLLocationManager()
+            locManager.desiredAccuracy = kCLLocationAccuracyBest
             print("SENDING LOCATION")
             if( CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
                 CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
-                    print("IN HERE")
-            }
-            let latitude = locManager.location?.coordinate.latitude
-            let longitude = locManager.location?.coordinate.longitude
-            let locationJson = "{\"latitude\":\"\(latitude)\",\"longitude\":\"\(longitude)\"}"
-            print("LocationJson")
-            print(locationJson)
-            
-            //send to server
-            var request = URLRequest(url: URL(string: "https://sheltered-scrubland-29626.herokuapp.com/avoiditapi/postlocation")!)
-            var token = UserDefaults.standard.value(forKey: "token") as! String
-            token = "Token " + token
-            request.setValue(token, forHTTPHeaderField: "Authorization")
-            request.httpMethod = "POST"
-            request.httpBody = locationJson.data(using: .utf8)
-            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-            
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                    print("error=\(error)")
-                    return
-                }
-                let httpStatus = response as? HTTPURLResponse
-                if (httpStatus?.statusCode != 200) {           // check for http errors
-                    debugPrint("statusCode should be 200, but is \(httpStatus?.statusCode)")
-                    debugPrint("response = \(response)")
-                } else {
-                    //successfull login
-                    let responseString = String(data: data, encoding: .utf8)
-                    debugPrint("responseString = \(responseString)")
-                    
-                    
-                }
-                //refresh the view controller here
-
                 
+                let latitude = locManager.location!.coordinate.latitude
+                let longitude = locManager.location!.coordinate.longitude
+                let locationJson = "{\"latitude\":\"\(latitude)\",\"longitude\":\"\(longitude)\"}"
+                print("LocationJson")
+                print(locationJson)
+                
+                //send to server
+                var request = URLRequest(url: URL(string: "https://sheltered-scrubland-29626.herokuapp.com/avoiditapi/postlocation")!)
+                var token = UserDefaults.standard.value(forKey: "token") as! String
+                token = "Token " + token
+                request.setValue(token, forHTTPHeaderField: "Authorization")
+                request.httpMethod = "POST"
+                request.httpBody = locationJson.data(using: .utf8)
+                request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+                
+                let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                    guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                        print("error=\(error)")
+                        return
+                    }
+                    let httpStatus = response as? HTTPURLResponse
+                    if (httpStatus?.statusCode != 200) {           // check for http errors
+                        debugPrint("statusCode should be 200, but is \(httpStatus?.statusCode)")
+                        debugPrint("response = \(response)")
+                    } else {
+                        //successfull login
+                        let responseString = String(data: data, encoding: .utf8)
+                        debugPrint("responseString = \(responseString)")
+                        
+                        
+                    }
+                    //refresh the view controller here
+                    
+                    
+                }
+                task.resume()
+            } else {
+                locManager.requestWhenInUseAuthorization()
             }
-            task.resume()
+            
+            
+        
 
         } else {
             print("USER NOT LOGGED IN. CAN'T SEND LOCATION")
