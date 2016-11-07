@@ -121,6 +121,12 @@ public class Home extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        rules.notifyDataSetChanged();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;

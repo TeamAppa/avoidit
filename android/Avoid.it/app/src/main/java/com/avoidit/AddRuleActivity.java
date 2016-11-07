@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class AddRuleActivity extends AppCompatActivity {
     private Button mPriceEntryButton;
 
     private ListView mEntriesList;
+    private ArrayAdapter<AbstractRuleEntry> mEntryAdapter;
 
     private RadioButton mTextMessageRadioButton;
     private RadioButton mAlarmRadioButton;
@@ -78,7 +80,11 @@ public class AddRuleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_rule);
+        mEntryAdapter = new ArrayAdapter<AbstractRuleEntry>(this, android.R.layout.simple_list_item_1,
+                RuleContainer.getInstance().getRuleUnderConstruction().entries);
+
         this.initiateComponents();
+        mEntriesList.setAdapter(mEntryAdapter);
 
         this.mLocationEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,7 +204,7 @@ public class AddRuleActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateEntriesList();
+        mEntryAdapter.notifyDataSetChanged();
     }
 
     /**
