@@ -1,7 +1,13 @@
 package com.avoidit;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,10 +17,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class AddRuleActivity extends AppCompatActivity {
     private EditText mRuleName;
@@ -31,6 +41,10 @@ public class AddRuleActivity extends AppCompatActivity {
 
     private EditText mPasses;
     private Button mSaveRuleButton;
+
+    private View mProgressView;
+
+    private PostRuleTask mPostRuleTask = null;
 
 
     private void initiateComponents(){
@@ -49,6 +63,8 @@ public class AddRuleActivity extends AppCompatActivity {
         this.mPasses = (EditText) findViewById(R.id.numberOfPasses);
 
         this.mSaveRuleButton = (Button) findViewById(R.id.save_rule_button);
+
+        this.mProgressView = findViewById(R.id.add_rule_progress);
     }
 
     @Override
@@ -91,6 +107,17 @@ public class AddRuleActivity extends AppCompatActivity {
     }
 
     private void attemptAddRule(View v){
+        if (mPostRuleTask != null) {
+            return;
+        }
+
+        // Reset errors.
+        this.mRuleName.setError(null);
+        this.mPasses.setError(null);
+        this.mContactName.setError(null);
+        this.mContactPhonenumber.setError(null);
+
+
         // Get current rules
         List rules = RuleContainer.getRules();
         Rule rule = RuleContainer.getLastRule();
@@ -146,8 +173,10 @@ public class AddRuleActivity extends AppCompatActivity {
 
             // Used for debugging
             System.out.println(RuleContainer.getLastRule().toJson());
-            attemptPostRule(RuleContainer.getLastRule().toJson());
-            finish();
+
+            showProgress(true);
+            mPostRuleTask = new PostRuleTask(rule.toJson(), this);
+            mPostRuleTask.execute((Void) null);
         }
     }
 
@@ -160,15 +189,101 @@ public class AddRuleActivity extends AppCompatActivity {
         return alarmType;
     }
 
-    private void attemptPostRule(JSONObject json){
-        HttpHelper helper = new HttpHelper();
-        final String ENDPOINT = "/createrulewithentries";
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        mSaveRuleButton.setEnabled(!show);
 
-        SharedPreferences settings = getSharedPreferences(RegistrationActivity.PREFS_NAME, 0);
-        String token = settings.getString("token","null");
-        if (token != "null"){
-            helper.postJson(ENDPOINT,json,token);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    public class PostRuleTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final JSONObject mJson;
+        private final Context mContext;
+
+
+        public PostRuleTask(JSONObject json, Context context) {
+            mJson = json;
+            mContext = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            HttpHelper helper = new HttpHelper();
+            boolean success = false;
+            final String ENDPOINT = "/createrulewithentries";
+
+            SharedPreferences settings = getSharedPreferences(RegistrationActivity.PREFS_NAME, 0);
+            String token = settings.getString("token","null");
+
+            // if we don't have a token it's not worth executing any code.
+            if (!Objects.equals(token, "null")){
+
+                // Response from server
+                String response = HttpHelper.postJson(ENDPOINT,mJson,token);
+                try {
+                    // Parse json response from server
+                    JSONObject jsonResponse = new JSONObject(response);
+
+                    // Refine message
+                    JSONArray jsonResponseJSONArray = jsonResponse.getJSONArray("message");
+                    String message = jsonResponseJSONArray.join("\n").replace("\"", "");
+
+                    // If message contains success we should return true, else false
+                    if (message.contains("success")){
+                        success = true;
+                    } else {
+                        Snackbar.make(findViewById(R.id.add_rule_progress),message, Snackbar.LENGTH_LONG).show();
+                        success = false;
+                    }
+
+                    return success;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return success;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            mPostRuleTask = null;
+
+            if (success) {
+                finish();
+            } else {
+                showProgress(false);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mPostRuleTask = null;
+            showProgress(false);
         }
     }
 
 }
+
+

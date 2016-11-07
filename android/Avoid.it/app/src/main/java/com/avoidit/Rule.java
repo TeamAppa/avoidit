@@ -64,10 +64,12 @@ public class Rule {
             json.put("contact_name", contactName);
             json.put("contact_phone", contactPhonenumber);
             json.put("passes", passes);
-
+            JSONArray jsonArray = new JSONArray();
             for (AbstractRuleEntry r: entries) {
-                json.accumulate("entries" , r.toJson());
+                jsonArray.put(r.toJson());
+                //json.accumulate("entries" , r.toJson());
             }
+            json.put("entries", jsonArray);
         } catch (JSONException e) {
             Log.d("com.avoidit", e.getMessage());
         }

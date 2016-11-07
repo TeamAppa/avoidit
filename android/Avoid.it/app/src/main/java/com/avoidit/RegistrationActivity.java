@@ -277,11 +277,11 @@ public class RegistrationActivity extends AppCompatActivity {
             String response = HttpHelper.post("/createuser", param);
 
             try {
-                JSONObject json_resp = new JSONObject(response);
-                boolean success = json_resp.has("token");
+                JSONObject jsonResponse = new JSONObject(response);
+                boolean success = jsonResponse.has("token");
 
                 if (success) {
-                    String token = json_resp.get("token").toString();
+                    String token = jsonResponse.get("token").toString();
 
                     SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
                     SharedPreferences.Editor editor = settings.edit();
@@ -289,14 +289,14 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     editor.apply();
                 } else {
-                    JSONArray errors = json_resp.getJSONArray("message");
-                    String err_msg = errors.join("\n").replace("\"", "");
+                    JSONArray errors = jsonResponse.getJSONArray("message");
+                    String errorMessage = errors.join("\n").replace("\"", "");
 
-                    Log.d("com.avoidit", err_msg);
+                    Log.d("com.avoidit", errorMessage);
 
                     // Display error message somewhere.
                     Snackbar.make(findViewById(R.id.registration_progress),
-                            R.string.app_name, Snackbar.LENGTH_LONG).setText(err_msg).show();
+                            R.string.app_name, Snackbar.LENGTH_LONG).setText(errorMessage).show();
                 }
 
                 return success;

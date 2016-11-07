@@ -122,7 +122,7 @@ public class HttpHelper {
 
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            conn.setDoInput(true);
+            // conn.setDoInput(true);
             conn.setDoOutput(true);
 
             conn.setRequestProperty("Content-Type", "application/json");
@@ -130,9 +130,11 @@ public class HttpHelper {
 
             String str = body.toString();
             OutputStream os = conn.getOutputStream();
+
             os.write(str.getBytes("UTF-8"));
 
             int responseCode = conn.getResponseCode();
+            System.out.println("Responsecode: " + responseCode);
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
 
@@ -152,8 +154,8 @@ public class HttpHelper {
             return response;
 
         } catch (Exception e) {
-            // Log.d("com.avoidit", e.getMessage());
-            return "Error";
+            Log.d("com.avoidit", e.toString());
+            return null;
         }
 
     }

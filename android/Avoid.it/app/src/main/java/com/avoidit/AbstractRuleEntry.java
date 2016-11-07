@@ -36,6 +36,10 @@ public abstract class AbstractRuleEntry<T> {
         mRuleId = ruleId;
     }
 
+    public void setmDisplayName(String mDisplayName) {
+        this.mDisplayName = mDisplayName;
+    }
+
     /**
      * Gets the type name of this avoidable target.
      * @return the type name of the avoidable target.
