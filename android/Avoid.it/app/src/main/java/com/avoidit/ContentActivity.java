@@ -19,9 +19,6 @@ import android.widget.ListView;
 public class ContentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Home.OnFragmentInteractionListener, Profile.OnFragmentInteractionListener{
 
-    ListView ruleList;
-    ArrayAdapter<CharSequence> rules;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -11,6 +11,7 @@ public class RuleContainer {
     private static RuleContainer instance = new RuleContainer();
 
     private List<Rule> rules;
+    private Rule mUnderConstruction;
 
     private RuleContainer() {
         rules = new ArrayList<>();
@@ -26,6 +27,24 @@ public class RuleContainer {
 
     public Rule getLastRule(){
         return rules.get(rules.size() - 1);
+    }
+
+
+    public void startRuleConstruction() {
+        mUnderConstruction = new Rule();
+    }
+
+    public Rule getRuleUnderConstruction() {
+        return mUnderConstruction;
+    }
+
+    public void finalizeRuleUnderConstruction() {
+        if (mUnderConstruction == null) {
+            return;
+        }
+
+        rules.add(mUnderConstruction);
+        mUnderConstruction = null;
     }
 
     @Override

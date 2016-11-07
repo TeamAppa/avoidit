@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -125,9 +126,7 @@ public class AddRuleActivity extends AppCompatActivity {
 
 
         // Get current rules
-        RuleContainer rc = RuleContainer.getInstance();
-        List rules = rc.getRules();
-        Rule rule = rc.getLastRule();
+        Rule rule = RuleContainer.getInstance().getRuleUnderConstruction();
 
         String ruleName = mRuleName.getText().toString();
         String alarmType = this.getAlarmType();
@@ -179,10 +178,10 @@ public class AddRuleActivity extends AppCompatActivity {
             rule.contactPhonenumber = contactPhonenumber;
 
             // Used for debugging
-            System.out.println(rc.getLastRule().toJson());
+            System.out.println(rule.toJson());
 
             showProgress(true);
-            mPostRuleTask = new PostRuleTask(rule.toJson(), this);
+            mPostRuleTask = new PostRuleTask(rule, this);
             mPostRuleTask.execute((Void) null);
         }
     }
@@ -231,12 +230,12 @@ public class AddRuleActivity extends AppCompatActivity {
 
     public class PostRuleTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final JSONObject mJson;
+        private Rule mRule;
         private final Context mContext;
 
 
-        public PostRuleTask(JSONObject json, Context context) {
-            mJson = json;
+        public PostRuleTask(Rule rule, Context context) {
+            mRule = rule;
             mContext = context;
         }
 
@@ -253,7 +252,7 @@ public class AddRuleActivity extends AppCompatActivity {
             if (!Objects.equals(token, "null")){
 
                 // Response from server
-                String response = HttpHelper.postJson(ENDPOINT,mJson,token);
+                String response = HttpHelper.postJson(ENDPOINT, mRule.toJson(),token);
                 try {
                     // Parse json response from server
                     JSONObject jsonResponse = new JSONObject(response);
@@ -285,8 +284,11 @@ public class AddRuleActivity extends AppCompatActivity {
 
             if (success) {
                 finish();
+                RuleContainer.getInstance().finalizeRuleUnderConstruction();
+                Log.d("AddRule", "Successfully added Rule");
             } else {
                 showProgress(false);
+                Log.d("AddRule", "Failed to add Rule");
             }
         }
 

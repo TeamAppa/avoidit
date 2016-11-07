@@ -36,7 +36,7 @@ public class PriceEntryActivity extends AppCompatActivity {
     }
 
     private void attemptAddPriceCriteria(View v){
-        Rule rule = RuleContainer.getInstance().getLastRule();
+        Rule rule = RuleContainer.getInstance().getRuleUnderConstruction();
         List<String> priceList = new ArrayList<>();
         boolean cancel = false;
 

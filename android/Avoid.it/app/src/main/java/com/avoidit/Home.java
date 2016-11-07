@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.Callable;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +38,7 @@ public class Home extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private ListView ruleList;
-    private ArrayAdapter<String> rules;
+    private ArrayAdapter<Rule> rules;
 
     private RuleContainer ruleContainer;
 
@@ -71,8 +75,8 @@ public class Home extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         this.ruleList = (ListView) view.findViewById(R.id.ruleList);
-        String[] dummyArray = {"Avoid fast food", "Avoid coffee"};
-        this.rules = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1,dummyArray);
+        this.rules = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1,
+                RuleContainer.getInstance().getRules());
         this.ruleList.setAdapter(this.rules);
 
         // Class for temporary storing rules.
@@ -84,7 +88,7 @@ public class Home extends Fragment {
             public void onClick(View view) {
                 // Open add rule activity
                 Intent intent = new Intent(getContext(), AddRuleActivity.class);
-                ruleContainer.addRule(new Rule());
+                ruleContainer.startRuleConstruction();
                 startActivity(intent);
             }
         });

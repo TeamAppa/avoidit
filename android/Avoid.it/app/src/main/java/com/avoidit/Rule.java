@@ -41,11 +41,14 @@ public class Rule {
         this.contactName = contactName;
         this.contactPhonenumber = contactPhonenumber;
         this.entries = new ArrayList<>();
-
     }
 
     @Override
     public String toString() {
+        return ruleName;
+    }
+
+    public String toDebugString() {
         return "Rule{" +
                 "ruleName='" + ruleName + '\'' +
                 ", alarmType='" + alarmType + '\'' +
