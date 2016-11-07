@@ -83,7 +83,8 @@ public abstract class AbstractRuleEntry<T> {
      */
     protected abstract void jsonifyCriteria(JSONObject json, T avoidanceCriteria) throws JSONException;
 
-    public String getmDisplayName() {
+    @Override
+    public String toString() {
         return mDisplayName;
     }
 }

@@ -76,12 +76,4 @@ public class Rule {
 
         return json;
     }
-
-    public List<String> getEntriesAsArray() {
-        List<String> entriesNames = new ArrayList<>();
-        for (AbstractRuleEntry e: entries) {
-            entriesNames.add(e.getmDisplayName());
-        }
-        return entriesNames;
-    }
 }
