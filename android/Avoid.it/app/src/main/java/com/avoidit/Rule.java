@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +40,8 @@ public class Rule {
         this.passes = passes;
         this.contactName = contactName;
         this.contactPhonenumber = contactPhonenumber;
+        this.entries = new ArrayList<>();
+
     }
 
     @Override
@@ -60,12 +63,16 @@ public class Rule {
             // json.put("alarm_type", alarmType);
             json.put("contact_name", contactName);
             json.put("contact_phone", contactPhonenumber);
-            json.put("entries", entries);
+            json.put("passes", passes);
 
+            for (AbstractRuleEntry r: entries) {
+                json.accumulate("entries" , r.toJson());
+            }
         } catch (JSONException e) {
             Log.d("com.avoidit", e.getMessage());
         }
 
         return json;
     }
+    
 }

@@ -9,16 +9,16 @@ import java.util.List;
 /**
  * Created by ngraves3 on 10/26/16.
  */
-public class PriceRuleEntry extends AbstractRuleEntry<List<Integer>> {
+public class PriceRuleEntry extends AbstractRuleEntry<List<String>> {
 
     // int ruleId, String typeName, String displayName,
-    public PriceRuleEntry(List<Integer> priceList) {
+    public PriceRuleEntry(List<String> priceList) {
         super("PR","Avoid Price");
         mAvoidanceCriteria = priceList;
     }
 
     @Override
-    protected void jsonifyCriteria(JSONObject json, List<Integer> avoidanceCriteria) throws JSONException {
+    protected void jsonifyCriteria(JSONObject json, List<String> avoidanceCriteria) throws JSONException {
         json.put("price_list", new JSONArray(mAvoidanceCriteria));
     }
 

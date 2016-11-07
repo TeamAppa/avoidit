@@ -3,11 +3,13 @@ package com.avoidit;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class AddRuleActivity extends AppCompatActivity {
@@ -23,7 +25,7 @@ public class AddRuleActivity extends AppCompatActivity {
     private EditText mContactName;
     private EditText mContactPhonenumber;
 
-    private EditText mNumberOfPasses;
+    private EditText mPasses;
     private Button mSaveRuleButton;
 
 
@@ -40,7 +42,7 @@ public class AddRuleActivity extends AppCompatActivity {
         this.mContactName = (EditText) findViewById(R.id.contactName);
         this.mContactPhonenumber = (EditText) findViewById(R.id.contactPhonenumber);
 
-        this.mNumberOfPasses = (EditText) findViewById(R.id.numberOfPasses);
+        this.mPasses = (EditText) findViewById(R.id.numberOfPasses);
 
         this.mSaveRuleButton = (Button) findViewById(R.id.save_rule_button);
     }
@@ -74,35 +76,69 @@ public class AddRuleActivity extends AppCompatActivity {
         });
 
         // Set a standard value for number of passes
-        this.mNumberOfPasses.setText("3");
+        this.mPasses.setText("3");
 
         this.mSaveRuleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkFields();
-                finish();
+                attemptAddRule();
             }
         });
     }
 
-    private void checkFields(){
+    private void attemptAddRule(){
         // Get current rules
-        List rules = RuleTempHolder.getRules();
-        Rule rule = RuleTempHolder.getLastRule();
+        List rules = RuleContainer.getRules();
+        Rule rule = RuleContainer.getLastRule();
 
         String ruleName = mRuleName.getText().toString();
         String alarmType = this.getAlarmType();
-        String numberOfPasses = mNumberOfPasses.getText().toString();
+        String numberOfPasses = mPasses.getText().toString();
         String contactName = mContactName.getText().toString();
         String contactPhonenumber = mContactPhonenumber.getText().toString();
-        rule.ruleName = ruleName;
-        rule.alarmType = alarmType;
-        rule.passes = numberOfPasses;
-        rule.contactName = contactName;
-        rule.contactPhonenumber = contactPhonenumber;
 
-        System.out.println(RuleTempHolder.getLastRule().toJson());
-        // System.out.println(RuleTempHolder.getLastRule().entries.get(0).toJson().toString());
+        boolean cancel = false;
+        List<View> focusView = new LinkedList<>();
+
+        if (TextUtils.isEmpty(ruleName)){
+            mRuleName.setError("Rule name is required");
+            focusView.add(mRuleName);
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(numberOfPasses)){
+            mPasses.setError("Number of passes is required");
+            focusView.add(mPasses);
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(contactName)){
+            mContactName.setError("Contact name is required");
+            focusView.add(mContactName);
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(contactPhonenumber)){
+            mContactPhonenumber.setError("Contact phonenumber is required");
+            focusView.add(mContactPhonenumber);
+            cancel = true;
+        }
+
+        if (cancel){
+            for (View fv : focusView) {
+                fv.requestFocus();
+            }
+        } else {
+            rule.ruleName = ruleName;
+            rule.alarmType = alarmType;
+            rule.passes = numberOfPasses;
+            rule.contactName = contactName;
+            rule.contactPhonenumber = contactPhonenumber;
+
+            // Used for debugging
+            System.out.println(RuleContainer.getLastRule().toJson());
+            finish();
+        }
     }
 
     private String getAlarmType(){
