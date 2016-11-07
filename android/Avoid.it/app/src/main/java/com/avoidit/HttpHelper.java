@@ -1,5 +1,6 @@
 package com.avoidit;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import org.json.JSONObject;
@@ -102,6 +103,57 @@ public class HttpHelper {
         } catch (Exception e) {
             Log.d("com.avoidit", e.getMessage());
             return null;
+        }
+
+    }
+
+    public static String postJson(String endpoint, JSONObject body, String token) {
+
+        if (!endpoint.startsWith("/")) {
+            endpoint = "/" + endpoint;
+        }
+
+        URL url;
+        String response = "";
+        boolean success = false;
+
+        try {
+            url = new URL(server + endpoint);
+
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Authorization", "Token " + token);
+
+            String str = body.toString();
+            OutputStream os = conn.getOutputStream();
+            os.write(str.getBytes("UTF-8"));
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                String line;
+                BufferedReader br = new BufferedReader(new InputStreamReader(
+                        conn.getInputStream()));
+                while ((line = br.readLine()) != null) {
+                    response += line;
+                }
+
+                success = true;
+            } else {
+                Log.d("com.avoidit", responseCode + "");
+                success = false;
+            }
+
+            return response;
+
+        } catch (Exception e) {
+            // Log.d("com.avoidit", e.getMessage());
+            return "Error";
         }
 
     }
