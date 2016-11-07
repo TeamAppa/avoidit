@@ -82,4 +82,8 @@ public abstract class AbstractRuleEntry<T> {
      * @param avoidanceCriteria
      */
     protected abstract void jsonifyCriteria(JSONObject json, T avoidanceCriteria) throws JSONException;
+
+    public String getmDisplayName() {
+        return mDisplayName;
+    }
 }

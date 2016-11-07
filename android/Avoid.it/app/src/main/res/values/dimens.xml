@@ -9,4 +9,5 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="entry_price_switch">28sp</dimen>
+    <dimen name="entries_listview_height">160dp</dimen>
 </resources>

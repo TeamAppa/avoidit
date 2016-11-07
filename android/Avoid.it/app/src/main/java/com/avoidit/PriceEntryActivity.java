@@ -58,6 +58,7 @@ public class PriceEntryActivity extends AppCompatActivity {
             Snackbar.make(v,"Please select at least one price criteria.",Snackbar.LENGTH_SHORT).show();
         } else {
             rule.entries.add(new PriceRuleEntry(priceList));
+
             finish();
         }
     }

@@ -13,8 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 
 import org.json.JSONArray;
@@ -32,6 +34,8 @@ public class AddRuleActivity extends AppCompatActivity {
     private Button mLocationEntryButton;
     private Button mCategoryEntryButton;
     private Button mPriceEntryButton;
+
+    private ListView mEntriesList;
 
     private RadioButton mTextMessageRadioButton;
     private RadioButton mAlarmRadioButton;
@@ -53,6 +57,8 @@ public class AddRuleActivity extends AppCompatActivity {
         this.mLocationEntryButton = (Button) findViewById(R.id.location_entry_button);
         this.mCategoryEntryButton = (Button) findViewById(R.id.category_entry_button);
         this.mPriceEntryButton = (Button) findViewById(R.id.price_entry_button);
+
+        this.mEntriesList = (ListView) findViewById(R.id.entries_listview);
 
         this.mTextMessageRadioButton = (RadioButton) findViewById(R.id.radioButtonTextMessage);
         this.mAlarmRadioButton = (RadioButton) findViewById(R.id.radioButtonAlarm);
@@ -190,6 +196,12 @@ public class AddRuleActivity extends AppCompatActivity {
         return alarmType;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateEntriesList();
+    }
+
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -283,6 +295,13 @@ public class AddRuleActivity extends AppCompatActivity {
             mPostRuleTask = null;
             showProgress(false);
         }
+    }
+
+    private void updateEntriesList() {
+        ArrayAdapter<String> entriesAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                RuleContainer.getInstance().getLastRule().getEntriesAsArray());
+        mEntriesList.setAdapter(entriesAdapter);
     }
 
 }
