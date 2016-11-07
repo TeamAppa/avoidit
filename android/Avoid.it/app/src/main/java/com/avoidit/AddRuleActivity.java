@@ -119,8 +119,9 @@ public class AddRuleActivity extends AppCompatActivity {
 
 
         // Get current rules
-        List rules = RuleContainer.getRules();
-        Rule rule = RuleContainer.getLastRule();
+        RuleContainer rc = RuleContainer.getInstance();
+        List rules = rc.getRules();
+        Rule rule = rc.getLastRule();
 
         String ruleName = mRuleName.getText().toString();
         String alarmType = this.getAlarmType();
@@ -172,7 +173,7 @@ public class AddRuleActivity extends AppCompatActivity {
             rule.contactPhonenumber = contactPhonenumber;
 
             // Used for debugging
-            System.out.println(RuleContainer.getLastRule().toJson());
+            System.out.println(rc.getLastRule().toJson());
 
             showProgress(true);
             mPostRuleTask = new PostRuleTask(rule.toJson(), this);

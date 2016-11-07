@@ -76,7 +76,7 @@ public class Home extends Fragment {
         this.ruleList.setAdapter(this.rules);
 
         // Class for temporary storing rules.
-        this.ruleContainer = new RuleContainer();
+        this.ruleContainer = RuleContainer.getInstance();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +84,7 @@ public class Home extends Fragment {
             public void onClick(View view) {
                 // Open add rule activity
                 Intent intent = new Intent(getContext(), AddRuleActivity.class);
-                RuleContainer.rules.add(new Rule());
+                ruleContainer.addRule(new Rule());
                 startActivity(intent);
             }
         });

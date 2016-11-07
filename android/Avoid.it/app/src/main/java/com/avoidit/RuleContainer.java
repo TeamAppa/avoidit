@@ -6,22 +6,25 @@ import java.util.List;
  * Created by Anthon on 2016-11-06.
  */
 
-class RuleContainer {
-    static List<Rule> rules;
+public class RuleContainer {
 
-    RuleContainer() {
-        rules = new ArrayList<Rule>();
+    private static RuleContainer instance = new RuleContainer();
+
+    private List<Rule> rules;
+
+    private RuleContainer() {
+        rules = new ArrayList<>();
     }
 
-    public RuleContainer(List<Rule> rules) {
-        RuleContainer.rules = rules;
+    public void addRule(Rule r) {
+        rules.add(r);
     }
 
-    static List<Rule> getRules() {
+    public final List<Rule> getRules() {
         return rules;
     }
 
-    static Rule getLastRule(){
+    public Rule getLastRule(){
         return rules.get(rules.size() - 1);
     }
 
@@ -32,5 +35,9 @@ class RuleContainer {
             retString += r.toString() + "\n";
         }
         return "RuleContainer\n" + retString;
+    }
+
+    public static RuleContainer getInstance() {
+        return instance;
     }
 }
