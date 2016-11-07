@@ -159,4 +159,9 @@ public class HttpHelper {
         }
 
     }
+
+    public static String getJson(String endpoint){
+
+        return null;
+    }
 }

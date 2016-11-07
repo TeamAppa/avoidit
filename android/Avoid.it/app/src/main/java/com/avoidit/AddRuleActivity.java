@@ -302,7 +302,7 @@ public class AddRuleActivity extends AppCompatActivity {
     private void updateEntriesList() {
         ArrayAdapter<AbstractRuleEntry> entriesAdapter = new ArrayAdapter<AbstractRuleEntry>(this,
                 android.R.layout.simple_list_item_1,
-                RuleContainer.getInstance().getLastRule().entries);
+                RuleContainer.getInstance().getRuleUnderConstruction().entries);
         mEntriesList.setAdapter(entriesAdapter);
     }
 
