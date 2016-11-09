@@ -48,7 +48,6 @@
         <activity android:name=".PriceEntryActivity"
             android:label="Add Price Criteria" />
 
-
     </application>
 
 </manifest>
