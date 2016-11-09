@@ -160,8 +160,50 @@ public class HttpHelper {
 
     }
 
-    public static String getJson(String endpoint){
+    public static String getJson(String endpoint, String token){
+        if (!endpoint.startsWith("/")) {
+            endpoint = "/" + endpoint;
+        }
 
-        return null;
+        URL url;
+        String response = "";
+        boolean success = false;
+
+        try {
+            url = new URL(server + endpoint);
+
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            conn.setRequestProperty("Authorization", "Token " + token);
+
+            int responseCode = conn.getResponseCode();
+            System.out.println("Responsecode: " + responseCode);
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+                String line;
+                BufferedReader br = new BufferedReader(new InputStreamReader(
+                        conn.getInputStream()));
+
+                while ((line = br.readLine()) != null) {
+                    response += line;
+                }
+                br.close();
+                System.out.println(response);
+                System.out.println("SUCCESS");
+
+                success = true;
+            } else {
+                System.out.println("FAIL");
+                Log.d("com.avoidit", responseCode + "");
+                success = false;
+            }
+
+            return response;
+
+        } catch (Exception e) {
+            Log.d("com.avoidit", e.toString());
+            return null;
+        }
     }
 }

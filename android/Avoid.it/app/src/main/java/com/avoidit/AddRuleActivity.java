@@ -80,10 +80,10 @@ public class AddRuleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_rule);
-        mEntryAdapter = new ArrayAdapter<AbstractRuleEntry>(this, android.R.layout.simple_list_item_1,
-                RuleContainer.getInstance().getRuleUnderConstruction().entries);
 
         this.initiateComponents();
+        mEntryAdapter = new ArrayAdapter<AbstractRuleEntry>(this, android.R.layout.simple_list_item_1,
+                RuleContainer.getInstance().getRuleUnderConstruction().entries);
         mEntriesList.setAdapter(mEntryAdapter);
 
         this.mLocationEntryButton.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +168,7 @@ public class AddRuleActivity extends AppCompatActivity {
         }
 
         if (rule.entries.isEmpty()) {
-            Snackbar.make(v,"Please add at least 1 entry.",Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(v,"Please add at least 1 entry",Snackbar.LENGTH_SHORT).show();
             cancel = true;
         }
 
@@ -304,14 +304,6 @@ public class AddRuleActivity extends AppCompatActivity {
             showProgress(false);
         }
     }
-
-    private void updateEntriesList() {
-        ArrayAdapter<AbstractRuleEntry> entriesAdapter = new ArrayAdapter<AbstractRuleEntry>(this,
-                android.R.layout.simple_list_item_1,
-                RuleContainer.getInstance().getRuleUnderConstruction().entries);
-        mEntriesList.setAdapter(entriesAdapter);
-    }
-
 }
 
 
