@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -22,12 +23,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class CategoryEntryActivity extends AppCompatActivity {
 
     private ListView mCategoriesList;
-    private ArrayAdapter<CategoryEntry> mCategoryAdapter;
-    private List<CategoryEntry> mCategories;
+    private ArrayAdapter<CategoryRuleEntry> mCategoryAdapter;
+    private List<CategoryRuleEntry> mCategories;
 
     private View mProgressView;
 
@@ -42,17 +44,35 @@ public class CategoryEntryActivity extends AppCompatActivity {
 
         this.mCategoriesList = (ListView) findViewById(R.id.categories_listview);
         this.mCategories = new ArrayList<>();
-        this.mCategoryAdapter = new ArrayAdapter<CategoryEntry>(this, android.R.layout.simple_list_item_1, mCategories);
+        this.mCategoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mCategories);
         this.mCategoriesList.setAdapter(mCategoryAdapter);
+
+        this.mCategoriesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                RuleContainer.getInstance().getRuleUnderConstruction().entries.add(mCategoryAdapter.getItem(position));
+                finish();
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mGetCategoriesTask = new GetCategoriesTask(this);
-        mGetCategoriesTask.execute((Void) null);
+        if (mCategories.isEmpty()) {
+            mGetCategoriesTask = new GetCategoriesTask(this);
 
-        mCategoryAdapter.notifyDataSetChanged();
+            try {
+                mGetCategoriesTask.execute((Void) null).get();
+                if (mGetCategoriesTask.getStatus() == AsyncTask.Status.FINISHED) {
+                    mCategoryAdapter.notifyDataSetChanged();
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        } else {
+
+        }
 
     }
 
@@ -82,7 +102,7 @@ public class CategoryEntryActivity extends AppCompatActivity {
         }
     }
 
-    public class GetCategoriesTask extends AsyncTask<Void, Void, Boolean>{
+    public class GetCategoriesTask extends AsyncTask<Void, Void, Boolean> {
         private final Context mContext;
 
         public GetCategoriesTask(Context mContext) {
@@ -97,10 +117,10 @@ public class CategoryEntryActivity extends AppCompatActivity {
             final String ENDPOINT = "/getcategoriesjson";
 
             SharedPreferences settings = getSharedPreferences(RegistrationActivity.PREFS_NAME, 0);
-            String token = settings.getString("token","null");
+            String token = settings.getString("token", "null");
 
             // if we don't have a token it's not worth executing any code.
-            if (!Objects.equals(token, "null")){
+            if (!Objects.equals(token, "null")) {
 
                 // Response from server
                 String response = HttpHelper.getJson(ENDPOINT, token);
@@ -110,17 +130,19 @@ public class CategoryEntryActivity extends AppCompatActivity {
 
                     // TODO: Improve check if response is valid
                     // Check if jsonResponse contains alias
-                    if (jsonResponse.toString().contains("alias")){
+                    if (jsonResponse.toString().contains("alias")) {
                         success = true;
 
-                        mCategories = new ArrayList<>();
-                        for (int i=0; i<jsonResponse.length();i++){
+                        for (int i = 0; i < jsonResponse.length(); i++) {
                             JSONObject jO = jsonResponse.getJSONObject(i);
-                            mCategories.add(new CategoryEntry(jO.get("title").toString(),jO.getJSONArray("alias")));
+                            try {
+                                mCategories.add(new CategoryRuleEntry(jO.get("title").toString(), jO.getJSONArray("alias").getString(0)));
+                            } catch (IndexOutOfBoundsException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        System.out.println(mCategories);
                     } else {
-                        Snackbar.make(findViewById(R.id.get_categories_progress),"", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(findViewById(R.id.get_categories_progress), "", Snackbar.LENGTH_LONG).show();
                         success = false;
                     }
 

@@ -15,7 +15,7 @@ public abstract class AbstractRuleEntry<T> {
 
     private int mRuleId;
     private String mTypeName;
-    private String mDisplayName;
+    protected String mDisplayName;
     protected T mAvoidanceCriteria;
 
     public AbstractRuleEntry() {
@@ -42,6 +42,7 @@ public abstract class AbstractRuleEntry<T> {
 
     /**
      * Gets the type name of this avoidable target.
+     *
      * @return the type name of the avoidable target.
      */
     public String getTypeName() {
@@ -50,6 +51,7 @@ public abstract class AbstractRuleEntry<T> {
 
     /**
      * Returns the avoidance criteria for this target.
+     *
      * @return the avoidance criteria.
      */
     public T getCriteria() {
@@ -58,6 +60,7 @@ public abstract class AbstractRuleEntry<T> {
 
     /**
      * Returns a JSON representation of this avoidance target.
+     *
      * @return
      */
     public JSONObject toJson() {
@@ -78,6 +81,7 @@ public abstract class AbstractRuleEntry<T> {
 
     /**
      * This method adds the appropriate avoidance criteria to the json accumulator object.
+     *
      * @param json
      * @param avoidanceCriteria
      */
