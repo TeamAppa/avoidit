@@ -342,6 +342,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                SharedPreferences settings = getSharedPreferences(RegistrationActivity.PREFS_NAME, 0);
+                String token = settings.getString("token", null);
+
+                FetchRulesTask fetchUserRules = new FetchRulesTask(token);
+                fetchUserRules.execute();
+
                 Intent intent = new Intent(mContext, ContentActivity.class);
                 startActivity(intent);
             } else {
@@ -356,5 +362,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+
 }
 

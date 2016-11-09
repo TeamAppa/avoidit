@@ -160,6 +160,12 @@ public class HttpHelper {
 
     }
 
+    /**
+     * Makes a GET request.
+     * @param endpoint The endpoint to hit.
+     * @param token The user's token
+     * @return The response as a string on success, null on failure.
+     */
     public static String getJson(String endpoint, String token){
         if (!endpoint.startsWith("/")) {
             endpoint = "/" + endpoint;
@@ -167,7 +173,6 @@ public class HttpHelper {
 
         URL url;
         String response = "";
-        boolean success = false;
 
         try {
             url = new URL(server + endpoint);
@@ -192,11 +197,10 @@ public class HttpHelper {
                 System.out.println(response);
                 System.out.println("SUCCESS");
 
-                success = true;
             } else {
                 System.out.println("FAIL");
                 Log.d("com.avoidit", responseCode + "");
-                success = false;
+                response = null;
             }
 
             return response;

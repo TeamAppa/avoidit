@@ -12,10 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.Callable;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -146,4 +142,5 @@ public class Home extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

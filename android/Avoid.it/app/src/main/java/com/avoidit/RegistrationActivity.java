@@ -96,8 +96,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void checkIfTokenExists() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        String token = settings.getString("token","null");
-        if (token != "null") {
+        String token = settings.getString("token", null);
+        if (token != null) {
+
+            FetchRulesTask getRules = new FetchRulesTask(token);
+            getRules.execute();
+
             Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
             startActivity(intent);
         }
