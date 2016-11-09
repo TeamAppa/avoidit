@@ -32,6 +32,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
 /**
@@ -101,6 +104,16 @@ public class RegistrationActivity extends AppCompatActivity {
 
             FetchRulesTask getRules = new FetchRulesTask(token);
             getRules.execute();
+
+            try {
+                getRules.get(2000, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            }
 
             Intent intent = new Intent(getApplicationContext(), ContentActivity.class);
             startActivity(intent);

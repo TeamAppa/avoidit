@@ -6,9 +6,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -75,7 +77,18 @@ public class Home extends Fragment {
                 RuleContainer.getInstance().getRules());
         this.ruleList.setAdapter(this.rules);
 
-        // Class for temporary storing rules.
+        ruleList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Rule targetRule = (Rule) adapterView.getItemAtPosition(i);
+
+                // TODO: send /deleterule request with ruleId.
+
+                return true;
+            }
+        });
+                                            // Class for temporary storing rules.
         this.ruleContainer = RuleContainer.getInstance();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);

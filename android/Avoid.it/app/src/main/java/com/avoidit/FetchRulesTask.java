@@ -52,6 +52,7 @@ public class FetchRulesTask extends AsyncTask<Void, Void, Boolean> {
 
                 // Build rule.
                 Rule rule = new Rule(
+                        Integer.parseInt(key),
                         ruleJson.getString("rule_name"),
                         "text",
                         ruleJson.getString("passes"),

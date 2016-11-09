@@ -18,6 +18,8 @@ import static java.io.FileDescriptor.out;
  */
 
 public class Rule {
+
+    public final int ruleId;
     public String ruleName;
     public String alarmType;
     public String passes = "3";
@@ -26,6 +28,7 @@ public class Rule {
     public List<AbstractRuleEntry> entries;
 
     public Rule() {
+        this.ruleId = -1;
         this.ruleName = "";
         this.alarmType = "text";
         this.passes = "3";
@@ -35,12 +38,17 @@ public class Rule {
     }
 
     public Rule(String ruleName, String alarmType, String passes, String contactName, String contactPhonenumber) {
+        this(-1, ruleName, alarmType, passes, contactName, contactPhonenumber);
+    }
+
+    public Rule(int ruleId, String ruleName, String alarmType, String passes, String contactName, String contactPhonenumber) {
         this.ruleName = ruleName;
         this.alarmType = alarmType;
         this.passes = passes;
         this.contactName = contactName;
         this.contactPhonenumber = contactPhonenumber;
         this.entries = new ArrayList<>();
+        this.ruleId = ruleId;
     }
 
     @Override
