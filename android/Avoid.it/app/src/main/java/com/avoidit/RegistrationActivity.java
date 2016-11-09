@@ -110,6 +110,9 @@ public class RegistrationActivity extends AppCompatActivity {
             FetchRulesTask getRules = new FetchRulesTask(token);
             getRules.execute();
 
+            Intent whereAmI = new Intent(this, LocationService.class);
+            startService(whereAmI);
+
             try {
                 getRules.get(2000, TimeUnit.MILLISECONDS);
             } catch (InterruptedException | ExecutionException | TimeoutException e) {

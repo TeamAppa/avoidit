@@ -8,7 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by ngraves3 on 11/9/16.
@@ -76,28 +78,25 @@ public class FetchRulesTask extends AsyncTask<Void, Void, Boolean> {
                     String typeName = entry.getString("type");
                     String displayName = entry.getString("display_name");
 
-                    if (entry.has("category_alias")) {
+                    if (entry.has("category_title")) {
                         // Parse category rule
                         CategoryRuleEntry catEntry = new CategoryRuleEntry(
                                 ruleId,
                                 typeName,
                                 displayName,
-                                entry.getString("category_alias")
+                                entry.getString("category_title")
                         );
                         rule.entries.add(catEntry);
 
                     } else if (entry.has("price_list")) {
                         // Parse price rule
-//                          // TODO: fix this. Right now, a list of prices is returned as an array
-                        //       of individual entries. This is bad and break things.
+                        JSONArray jsonList = entry.getJSONArray("price_list");
+                        List<String> priceList = new ArrayList<>();
+                        for (int j = 0; j < jsonList.length(); j++) {
+                            priceList.add(jsonList.getString(j));
+                        }
 
-//                            JSONArray jsonList = entry.getJSONArray("price_list");
-//                            List<String> priceList = new ArrayList<>();
-//                            for (int j = 0; j < jsonList.length(); j++) {
-//                                priceList.add(jsonList.getString(j));
-//                            }
-//
-//                            rule.entries.add(new PriceRuleEntry(priceList));
+                        rule.entries.add(new PriceRuleEntry(priceList));
                     } else if (entry.has("location_id")) {
                         // Parse location rule.
                         LocationRuleEntry locEntry = new LocationRuleEntry(

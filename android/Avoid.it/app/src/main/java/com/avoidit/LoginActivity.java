@@ -348,6 +348,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 FetchRulesTask fetchUserRules = new FetchRulesTask(token);
                 fetchUserRules.execute();
 
+                Intent whereAmI = new Intent(mContext, LocationService.class);
+                mContext.startService(whereAmI);
+
                 Intent intent = new Intent(mContext, ContentActivity.class);
                 startActivity(intent);
             } else {
