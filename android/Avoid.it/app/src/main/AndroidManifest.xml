@@ -41,9 +41,14 @@
         <activity
             android:name=".AddRuleActivity"
             android:label="@string/title_activity_add_rule" />
-        <activity android:name=".LocationEntryActivity" />
-        <activity android:name=".CategoryEntryActivity" />
-        <activity android:name=".PriceEntryActivity"></activity>
+        <activity android:name=".LocationEntryActivity"
+            android:label="Add Location" />
+        <activity android:name=".CategoryEntryActivity"
+            android:label="Add Category" />
+        <activity android:name=".PriceEntryActivity"
+            android:label="Add Price Criteria" />
+
+
     </application>
 
 </manifest>
