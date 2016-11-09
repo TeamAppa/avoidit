@@ -2,6 +2,7 @@ package com.avoidit;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
@@ -10,6 +11,9 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,26 +69,32 @@ public class LocationService extends IntentService {
             Log.d("LocationService", "Failed to connect to location service.");
         }
 
+        final String PREFS_NAME = "AvoidItPrefs";
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        String token = settings.getString("token", null);
+
         while (true) {
             Location location = LocationServices.FusedLocationApi.getLastLocation(mApiClient);
 
             if (location != null) {
-                HashMap<String, String> body = new HashMap<>();
-                body.put("latitude", location.getLatitude() + "");
-                body.put("longitude", location.getLongitude() + "");
+                JSONObject body = new JSONObject();
+                try {
+                    body.put("latitude", location.getLatitude() + "");
+                    body.put("longitude", location.getLongitude() + "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                String resp = HttpHelper.post("/postlocation", body);
+                String resp = HttpHelper.postJson("/postlocation", body, token);
 
                 if (resp == null) {
                     Log.d("LocationService", "Failed to post location");
                 } else {
-                    Log.d("LocationService", "Last known location: " + resp);
+                    Log.d("LocationService", "Last known location: " + location);
                 }
             } else {
                 Log.d("LocationService", "Failed to get location");
             }
-
-
 
             try {
                 Thread.sleep(30 * 1000);
