@@ -46,12 +46,14 @@ public class LocationService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         currentIntents.add(intent);
 
-        Log.d("LocationService", "Have appropriate permissions");
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            return;
+        Log.d("LocationService", "Checking appropriate permissions");
+        if ((ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+                && (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)) {
+            Log.d("LocationService", "Don't have right permissions");
+        } else {
+            Log.d("LocationService", "Have right permissions");
         }
 
         Log.d("LocationService", "Connecting to API client");
