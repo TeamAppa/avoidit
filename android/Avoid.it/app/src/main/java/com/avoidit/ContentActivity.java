@@ -13,8 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 public class ContentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Home.OnFragmentInteractionListener, Profile.OnFragmentInteractionListener{
@@ -36,7 +34,7 @@ public class ContentActivity extends AppCompatActivity
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.homeContent, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.homeContent, fragment, "HOME").commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -53,8 +51,6 @@ public class ContentActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 
@@ -96,13 +92,16 @@ public class ContentActivity extends AppCompatActivity
 
         Fragment fragment = null;
         Class fragmentClass = null;
+        String tag = null;
 
         if (id == R.id.nav_home) {
             // Handle going to home
             fragmentClass = Home.class;
+            tag = "HOME";
         } else if (id == R.id.nav_profile) {
             // Handle going to profile.
             fragmentClass = Profile.class;
+            tag = "PROFILE";
         }
 
         try {
@@ -111,7 +110,7 @@ public class ContentActivity extends AppCompatActivity
             e.printStackTrace();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.homeContent,fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.homeContent,fragment, tag).commit();
     }
 
     public void onFragmentInteraction(Uri uri){
