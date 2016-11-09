@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class CategoryEntryActivity extends AppCompatActivity {
 
@@ -63,17 +65,14 @@ public class CategoryEntryActivity extends AppCompatActivity {
             mGetCategoriesTask = new GetCategoriesTask(this);
 
             try {
-                mGetCategoriesTask.execute((Void) null).get();
+                mGetCategoriesTask.execute((Void) null).get(2000, TimeUnit.MILLISECONDS);
                 if (mGetCategoriesTask.getStatus() == AsyncTask.Status.FINISHED) {
                     mCategoryAdapter.notifyDataSetChanged();
                 }
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
                 e.printStackTrace();
             }
-        } else {
-
         }
-
     }
 
     /**
