@@ -29,6 +29,8 @@ public class LocationService extends IntentService {
     private static List<Intent> currentIntents = new LinkedList<>();
 
     private GoogleApiClient mApiClient;
+    private static double mLongitude;
+    private static double mLatitude;
 
     public LocationService() {
         super("LocationService");
@@ -75,6 +77,8 @@ public class LocationService extends IntentService {
 
         while (true) {
             Location location = LocationServices.FusedLocationApi.getLastLocation(mApiClient);
+            mLatitude = location.getLatitude();
+            mLongitude = location.getLongitude();
 
             if (location != null) {
                 JSONObject body = new JSONObject();
@@ -84,13 +88,14 @@ public class LocationService extends IntentService {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Log.d("LocationService", body.toString());
 
                 String resp = HttpHelper.postJson("/postlocation", body, token);
 
                 if (resp == null) {
                     Log.d("LocationService", "Failed to post location");
                 } else {
-                    Log.d("LocationService", "Last known location: " + location);
+                    Log.d("LocationService", "Last known location: " + resp);
                 }
             } else {
                 Log.d("LocationService", "Failed to get location");
@@ -102,5 +107,14 @@ public class LocationService extends IntentService {
                 e.printStackTrace();
             }
         }
+    }
+
+    // TODO: Add check if not null or invalid value
+    public static double getmLongitude() {
+        return mLongitude;
+    }
+
+    public static double getmLatitude() {
+        return mLatitude;
     }
 }

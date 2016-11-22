@@ -15,6 +15,11 @@ public class LocationRuleEntry extends AbstractRuleEntry<String> {
         mAvoidanceCriteria = locationId;
     }
 
+    public LocationRuleEntry(String displayName, String locationId) {
+        super("LO", displayName);
+        mAvoidanceCriteria = locationId;
+    }
+
     @Override
     protected void jsonifyCriteria(JSONObject json, String avoidanceCriteria) throws JSONException {
         json.put("location_id", mAvoidanceCriteria);

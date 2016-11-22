@@ -26,7 +26,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/search_button"
+        android:id="@+id/search_categories_button"
         android:text="@string/prompt_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -35,9 +35,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ListView
+            android:id="@+id/categories_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></ListView>
     </LinearLayout>
+
+    <!-- Get categories progress -->
+    <ProgressBar
+        android:id="@+id/get_categories_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:visibility="gone" />
 
 
 </LinearLayout>

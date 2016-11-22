@@ -83,6 +83,8 @@ public class CategoryEntryActivity extends AppCompatActivity {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
+        mCategoriesList.setEnabled(!show);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
@@ -135,7 +137,7 @@ public class CategoryEntryActivity extends AppCompatActivity {
                         for (int i = 0; i < jsonResponse.length(); i++) {
                             JSONObject jO = jsonResponse.getJSONObject(i);
                             try {
-                                mCategories.add(new CategoryRuleEntry(jO.get("title").toString(), jO.getJSONArray("alias").getString(0)));
+                                mCategories.add(new CategoryRuleEntry(jO.getString("title"), jO.getJSONArray("alias").getString(0)));
                             } catch (IndexOutOfBoundsException e) {
                                 e.printStackTrace();
                             }
