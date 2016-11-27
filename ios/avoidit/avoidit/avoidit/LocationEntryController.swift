@@ -56,4 +56,19 @@ class LocationEntryController: UIViewController, UITableViewDelegate, UITableVie
         cell.textLabel?.text = currentLocations[indexPath.row].name + " | " + currentLocations[indexPath.row].address + ", " + currentLocations[indexPath.row].zip + " " + currentLocations[indexPath.row].country;
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("selected cell \(indexPath.row)")
+        let selectedLocation = currentLocations[indexPath.row]
+        ruleEntries.append(LocationEntry(ruleId: "", displayName: "Avoid " + selectedLocation.name, locationId: selectedLocation.id, type: "LO"))
+        //clear out the locations
+        currentLocations = [Location]()
+        
+        //go back to new rule page
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "locationEntryToNewRule", sender: self)
+        }
+        
+        
+    }
 }

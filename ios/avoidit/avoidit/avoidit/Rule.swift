@@ -123,10 +123,6 @@ func sendLocation() {
 
 func searchLocations(searchTerm : String) {
     currentLocations = [Location]()
-    let location1 = Location(id: "dunkin", name: "dunkin", address: "321 common st", zip: "32132", country: "US")
-    currentLocations.append(location1)
-    let location2 = Location(id: "dunkin", name: "dunkin 2", address: "321 common st", zip: "32132", country: "US")
-    currentLocations.append(location2)
     
     var request = URLRequest(url: URL(string: "https://sheltered-scrubland-29626.herokuapp.com/avoiditapi/search")!)
     var token = UserDefaults.standard.value(forKey: "token") as! String
@@ -156,12 +152,23 @@ func searchLocations(searchTerm : String) {
             do{
                 
                 let json = try JSONSerialization.jsonObject(with: data, options:.allowFragments)
-                debugPrint("JSON: " , json)
+                //debugPrint("JSON: " , json)
                 for anItem in json as! Dictionary<String, AnyObject> {
                     //create a new rule
-                    var newLocation = Location(id: "", name: "", address: "", zip: "", country: "")
+                    for location in anItem.value as! [Dictionary<String, AnyObject>] {
+                        var newLocation = Location(id: "", name: "", address: "", zip: "", country: "")
+                        print("=====NEW LOCATION=====")
+                        print(location)
+                        newLocation.name = location["name"]! as! String
+                        newLocation.id = location["id"]! as! String
+                        //get address out of location
+                        let location2 = location["location"]!
+                        newLocation.address = location2["address1"]!! as! String
+                        newLocation.zip = location2["zip_code"]!! as! String
+                        newLocation.country = location2["country"]!! as! String
+                        currentLocations.append(newLocation)
+                    }
                     
-                    currentLocations.append(newLocation)
                 }
                 
             }catch {

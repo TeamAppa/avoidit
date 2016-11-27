@@ -361,6 +361,7 @@
                     <connections>
                         <outlet property="searchBar" destination="80U-Rh-Ybj" id="0mP-XR-iH2"/>
                         <outlet property="tableView" destination="CUD-T5-UgP" id="qSq-up-NsZ"/>
+                        <segue destination="YaQ-5b-Xbc" kind="show" identifier="locationEntryToNewRule" id="NYD-Wt-EV8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rRW-X1-4fr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -893,7 +894,7 @@
         <image name="Profile" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OI8-Xj-39B"/>
         <segue reference="hAe-sE-7QX"/>
+        <segue reference="NYD-Wt-EV8"/>
     </inferredMetricsTieBreakers>
 </document>
