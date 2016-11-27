@@ -17,6 +17,7 @@ class RegisterController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet var email: UITextField!
     @IBOutlet var passwordConfirm: UITextField!
     @IBOutlet var password: UITextField!
+    var locManager : CLLocationManager!
     override func viewDidLoad() {
         super.viewDidLoad()
         //Looks for single or multiple taps.
@@ -36,6 +37,9 @@ class RegisterController: UIViewController, CLLocationManagerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.global(qos: .background).async {
             // Background thread
+            self.locManager = CLLocationManager()
+            self.locManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+            self.locManager.startUpdatingLocation()
             var timer = Timer()
             DispatchQueue.main.async(execute: {
                 timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(RegisterController.sendLocation), userInfo: nil, repeats: true)
@@ -165,7 +169,7 @@ class RegisterController: UIViewController, CLLocationManagerDelegate {
                 print("statusCode should be 200, but is \(httpStatus?.statusCode)")
                 print("response = \(response)")
                 success = false
-                message = "email and password must be unique"
+                message = "email and phone number must be unique"
                 
             } else {
                 //determine what to do with a response
@@ -220,14 +224,19 @@ class RegisterController: UIViewController, CLLocationManagerDelegate {
     }
     func sendLocation() {
         if UserDefaults.standard.value(forKey: "token") != nil {
-            let locManager = CLLocationManager()
-            locManager.desiredAccuracy = kCLLocationAccuracyBest
+            print (locManager)
             print("SENDING LOCATION")
             if( CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse ||
                 CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedAlways){
                 
-                let latitude = locManager.location!.coordinate.latitude
-                let longitude = locManager.location!.coordinate.longitude
+                let location = locManager.location
+                print("HORIZONRAL ACCURACY")
+                let accuracy = location!.horizontalAccuracy
+                print (accuracy)
+                let latitude = location!.coordinate.latitude
+                let longitude = location!.coordinate.longitude
+                
+                
                 let locationJson = "{\"latitude\":\"\(latitude)\",\"longitude\":\"\(longitude)\"}"
                 print("LocationJson")
                 print(locationJson)
@@ -251,9 +260,21 @@ class RegisterController: UIViewController, CLLocationManagerDelegate {
                         debugPrint("statusCode should be 200, but is \(httpStatus?.statusCode)")
                         debugPrint("response = \(response)")
                     } else {
-                        //successfull login
+                        //location sent successfully
                         let responseString = String(data: data, encoding: .utf8)
                         debugPrint("responseString = \(responseString)")
+                        
+                        /**
+                        
+                        //determine if we want to post a notification
+                        // create a corresponding local notification
+                        let notification = UILocalNotification()
+                        notification.alertBody = "Posted a Location" // text that will be displayed in the notification
+                        notification.alertAction = "open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
+                        //notification.fireDate = item.deadline as Date // todo item due date (when notification will be fired) notification.soundName = UILocalNotificationDefaultSoundName // play default sound
+                        
+                        UIApplication.shared.scheduleLocalNotification(notification)
+                         */
                         
                         
                     }
@@ -273,6 +294,10 @@ class RegisterController: UIViewController, CLLocationManagerDelegate {
             print("USER NOT LOGGED IN. CAN'T SEND LOCATION")
         }
         
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("LOCATION UPDATED")
     }
 
 }

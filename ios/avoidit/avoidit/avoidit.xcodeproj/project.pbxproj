@@ -22,6 +22,7 @@
 		28B455E61DA1DD7F00120D5C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28B455E41DA1DD7F00120D5C /* LaunchScreen.storyboard */; };
 		28B455F11DA1DD8000120D5C /* avoiditTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B455F01DA1DD8000120D5C /* avoiditTests.swift */; };
 		28B455FC1DA1DD8000120D5C /* avoiditUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B455FB1DA1DD8000120D5C /* avoiditUITests.swift */; };
+		28E1F10D1DD1315900E38098 /* category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E1F10C1DD1315900E38098 /* category.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		28B455F71DA1DD8000120D5C /* avoiditUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = avoiditUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28B455FB1DA1DD8000120D5C /* avoiditUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = avoiditUITests.swift; sourceTree = "<group>"; };
 		28B455FD1DA1DD8000120D5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28E1F10C1DD1315900E38098 /* category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = category.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 				28569F911DC146F000BCF6A9 /* LocationEntryController.swift */,
 				28569F931DC14DDD00BCF6A9 /* PriceEntryController.swift */,
 				28569F951DC14DEF00BCF6A9 /* CategoryEntryController.swift */,
+				28E1F10C1DD1315900E38098 /* category.swift */,
 			);
 			path = avoidit;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				280D66371DB2BED400262E83 /* RegisterController.swift in Sources */,
+				28E1F10D1DD1315900E38098 /* category.swift in Sources */,
 				281DB3EC1DBD1B4700F338C3 /* RuleTableViewController.swift in Sources */,
 				28569F961DC14DEF00BCF6A9 /* CategoryEntryController.swift in Sources */,
 				28B455DE1DA1DD7F00120D5C /* ProfileController.swift in Sources */,

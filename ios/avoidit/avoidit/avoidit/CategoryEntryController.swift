@@ -8,22 +8,25 @@
 
 import UIKit
 
-class CategoryEntryController: UIViewController {
+class CategoryEntryController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    
+    @IBOutlet var categoryTableView: UITableView!
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        //load the categries from the server
+        if (categories.count == 0) {
+            loadCategoriesFromServer()
+        }
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         //alertType.
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(RegisterController.dismissKeyboard))
         
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        //tap.cancelsTouchesInView = false
-        
-        view.addGestureRecognizer(tap)
     }
     
     override func didReceiveMemoryWarning() {
@@ -31,9 +34,40 @@ class CategoryEntryController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    //Calls this function when the tap is recognized.
-    func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
+    // MARK: - Table view data source
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return categories.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Category Cell", for: indexPath)
+        
+        // Configure the cell...
+        cell.textLabel?.text = categories[indexPath.row]
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("selected cell \(indexPath.row)")
+        let selectedCategory = categories[indexPath.row]
+        print("SELECTED: " + selectedCategory)
+        ruleEntries.append(CategoryEntry(ruleId: "", displayName: "Avoid " + selectedCategory, categoryTitle: selectedCategory, type: "CA"))
+        
+        //go back to new rule page
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "categoryEntryToNewRule", sender: self)
+        }
+        
+        
+    }
+    
 }

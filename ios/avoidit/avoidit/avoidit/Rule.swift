@@ -67,10 +67,10 @@ struct PriceEntry : RuleEntry {
 struct CategoryEntry : RuleEntry {
     internal var ruleId: String
     internal var displayName : String
-    var categoryId : String
+    internal var categoryTitle : String
     var type = "CA"
     func getJson() -> String {
-        return "{\"rule_id\":\"\(ruleId)\",\"type\":\"\(type)\",\"display_name\":\"\(displayName)\",\"category_alias\":\"\(categoryId)\"}"
+        return "{\"display_name\":\"\(displayName)\",\"category_title\":\"\(categoryTitle)\",\"type\":\"\(type)\"}"
     }
 }
 
