@@ -235,6 +235,8 @@ class RegisterController: UIViewController, CLLocationManagerDelegate {
                 print (accuracy)
                 let latitude = location!.coordinate.latitude
                 let longitude = location!.coordinate.longitude
+                globalLat = latitude.description
+                globalLong = longitude.description
                 
                 
                 let locationJson = "{\"latitude\":\"\(latitude)\",\"longitude\":\"\(longitude)\"}"

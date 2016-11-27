@@ -12,7 +12,13 @@ var ruleData = [Rule]()
 
 var ruleEntries = [RuleEntry]() //This is where rule entries are stored as a rule is created
 
+var currentLocations = [Location]() //This is where location are stored after searching
+
 var currentRule = Rule(id: "", name: "", entries: [], numPasses: 0, contactName: "", contactNumber: "", notificationType: "Text")
+
+var globalLat = ""
+
+var globalLong = ""
 
 struct Rule {
     var id : String
@@ -26,6 +32,14 @@ struct Rule {
     func getJson() -> String {
         return "{\"rule_name\":\"\(name)\",\"passes\":\"\(numPasses)\",\"entries\":\(jsonRuleEntryArray(array: entries)),\"contact_name\":\"\(contactName)\",\"contact_phone\":\"\(contactNumber)\"}"
     }
+}
+
+struct Location {
+    var id : String
+    var name : String
+    var address : String
+    var zip : String
+    var country : String
 }
 
 protocol RuleEntry {
@@ -105,6 +119,66 @@ func jsonRuleEntryArray(array : [RuleEntry]) -> String
 
 func sendLocation() {
     print("SENDING LOCATION")
+}
+
+func searchLocations(searchTerm : String) {
+    currentLocations = [Location]()
+    let location1 = Location(id: "dunkin", name: "dunkin", address: "321 common st", zip: "32132", country: "US")
+    currentLocations.append(location1)
+    let location2 = Location(id: "dunkin", name: "dunkin 2", address: "321 common st", zip: "32132", country: "US")
+    currentLocations.append(location2)
+    
+    var request = URLRequest(url: URL(string: "https://sheltered-scrubland-29626.herokuapp.com/avoiditapi/search")!)
+    var token = UserDefaults.standard.value(forKey: "token") as! String
+    token = "Token " + token
+    request.setValue(token, forHTTPHeaderField: "Authorization")
+    request.httpMethod = "POST"
+    let body = "{\"latitude\":\"\(globalLat)\",\"longitude\":\"\(globalLong)\",\"term\":\"\(searchTerm)\"}"
+    request.httpBody = body.data(using: .utf8)
+    request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+    var done = false
+    
+    
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        guard let data = data, error == nil else {                                                 // check for fundamental networking error
+            print("error=\(error)")
+            return
+        }
+        let httpStatus = response as? HTTPURLResponse
+        if (httpStatus?.statusCode != 200) {           // check for http errors
+            debugPrint("statusCode should be 200, but is \(httpStatus?.statusCode)")
+            debugPrint("response = \(response)")
+        } else {
+            //successfull login
+            let responseString = String(data: data, encoding: .utf8)
+            debugPrint("responseString = \(responseString)")
+            
+            do{
+                
+                let json = try JSONSerialization.jsonObject(with: data, options:.allowFragments)
+                debugPrint("JSON: " , json)
+                for anItem in json as! Dictionary<String, AnyObject> {
+                    //create a new rule
+                    var newLocation = Location(id: "", name: "", address: "", zip: "", country: "")
+                    
+                    currentLocations.append(newLocation)
+                }
+                
+            }catch {
+                print("Error with Json: \(error)")
+            }
+            
+            
+        }
+        //refresh the view controller here
+        done = true
+        
+    }
+    task.resume()
+    while(!done) {
+        //do nothing
+    }
+
 }
 
 func loadRulesFromServer() {

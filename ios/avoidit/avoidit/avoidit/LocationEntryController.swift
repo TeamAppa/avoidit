@@ -8,32 +8,52 @@
 
 import UIKit
 
-class LocationEntryController: UIViewController {
+class LocationEntryController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+    
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var searchBar: UISearchBar!
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        //alertType.
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(RegisterController.dismissKeyboard))
-        
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        //tap.cancelsTouchesInView = false
-        
-        view.addGestureRecognizer(tap)
     }
+    
+ 
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    //Calls this function when the tap is recognized.
-    func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchLocations(searchTerm: searchBar.text!)
+        print("Searched for: " + searchBar.text!)
+        tableView.reloadData()
+        
+    }
+    
+    
+    // MARK: - Table view data source
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return currentLocations.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Location Cell", for: indexPath)
+        
+        // Configure the cell...
+        cell.textLabel?.text = currentLocations[indexPath.row].name + " | " + currentLocations[indexPath.row].address + ", " + currentLocations[indexPath.row].zip + " " + currentLocations[indexPath.row].country;
+        return cell
     }
 }
