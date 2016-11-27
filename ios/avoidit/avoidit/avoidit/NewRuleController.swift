@@ -62,7 +62,7 @@ class NewRuleController: UIViewController, UITableViewDelegate, UITableViewDataS
             self.present(addRuleError, animated: true, completion: nil)
             
         } else {
-            currentRule.contactName = "placeholder"
+            currentRule.contactName = "Parth"
             currentRule.contactNumber = contactPhone.text!
             currentRule.name = ruleName.text!
             currentRule.notificationType = alertType.titleForSegment(at: alertType.selectedSegmentIndex) ?? "Text"

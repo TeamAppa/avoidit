@@ -8,6 +8,10 @@
 
 import Foundation
 
+var globalLat = ""
+
+var globalLong = ""
+
 var ruleData = [Rule]()
 
 var ruleEntries = [RuleEntry]() //This is where rule entries are stored as a rule is created
@@ -15,10 +19,6 @@ var ruleEntries = [RuleEntry]() //This is where rule entries are stored as a rul
 var currentLocations = [Location]() //This is where location are stored after searching
 
 var currentRule = Rule(id: "", name: "", entries: [], numPasses: 0, contactName: "", contactNumber: "", notificationType: "Text")
-
-var globalLat = ""
-
-var globalLong = ""
 
 struct Rule {
     var id : String
@@ -32,21 +32,6 @@ struct Rule {
     func getJson() -> String {
         return "{\"rule_name\":\"\(name)\",\"passes\":\"\(numPasses)\",\"entries\":\(jsonRuleEntryArray(array: entries)),\"contact_name\":\"\(contactName)\",\"contact_phone\":\"\(contactNumber)\"}"
     }
-}
-
-struct Location {
-    var id : String
-    var name : String
-    var address : String
-    var zip : String
-    var country : String
-}
-
-protocol RuleEntry {
-    var ruleId : String {get set}
-    var displayName : String {get set}
-    var type : String {get set}
-    func getJson() -> String
 }
 
 struct PriceEntry : RuleEntry {
@@ -74,6 +59,22 @@ struct PriceEntry : RuleEntry {
         return soln
     }
     
+}
+
+
+struct Location {
+    var id : String
+    var name : String
+    var address : String
+    var zip : String
+    var country : String
+}
+
+protocol RuleEntry {
+    var ruleId : String {get set}
+    var displayName : String {get set}
+    var type : String {get set}
+    func getJson() -> String
 }
 
 
@@ -218,27 +219,19 @@ func loadRulesFromServer() {
                 
                 let json = try JSONSerialization.jsonObject(with: data, options:.allowFragments)
                 debugPrint("JSON: " , json)
+                //iterate through the rules in the JSON
                 for anItem in json as! Dictionary<String, AnyObject> {
-                    //create a new rule
+                    //create an empty rule
                     var newRule = Rule(id: "", name: "", entries: [], numPasses: 0, contactName: "", contactNumber: "", notificationType: "")
-                    //print("=====NEW ITEM=====")
-                    //print(anItem)
-                    //print("KEY")
-                    //print (anItem.key)
-                    //print("VALUE")
-                    //print (anItem.value)
+                    
                     newRule.id = anItem.key //set the id of the rule
-                    //iterate through the value
+                    //update the temporary rule with correct values
                     let ruleValues = (anItem.value as? [String: Any])!
                     newRule.numPasses = ruleValues["passes"] as! Int
                     newRule.contactName = ruleValues["contact_name"] as! String
                     newRule.contactNumber = ruleValues["contact_phone"] as! String
                     newRule.name = ruleValues["rule_name"] as! String
-                    newRule.notificationType = "TEXT" //fix this when response is fixed
-                    
-                    //need to add the rules entries to the rule
-                    //rule entries are not added yet
-                    
+                    newRule.notificationType = "TEXT"
                     
                     //add the rule to rule data
                     ruleData.append(newRule)
