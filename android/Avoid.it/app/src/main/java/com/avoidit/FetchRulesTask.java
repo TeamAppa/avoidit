@@ -63,8 +63,6 @@ public class FetchRulesTask extends AsyncTask<Void, Void, Boolean> {
                 );
 
                 // Add entries
-
-                // FIXME: quick hack to make sure that the rule does in fact have entries
                 if (!jsonResponse.has("entries")) {
                     RuleContainer.getInstance().addRule(rule);
                     continue;

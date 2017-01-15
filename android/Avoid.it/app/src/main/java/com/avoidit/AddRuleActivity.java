@@ -256,7 +256,6 @@ public class AddRuleActivity extends AppCompatActivity {
 
             // if we don't have a token it's not worth executing any code.
             if (!Objects.equals(token, "null")){
-
                 // Response from server
                 String response = HttpHelper.postJson(ENDPOINT, mRule.toJson(),token);
                 try {
@@ -274,13 +273,11 @@ public class AddRuleActivity extends AppCompatActivity {
                         Snackbar.make(findViewById(R.id.add_rule_progress),message, Snackbar.LENGTH_LONG).show();
                         success = false;
                     }
-
                     return success;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-
             return success;
         }
 

@@ -27,6 +27,26 @@ public class Rule {
     public String contactPhonenumber;
     public List<AbstractRuleEntry> entries;
 
+    public JSONObject toJson(){
+        JSONObject json = new JSONObject();
+        try {
+            json.put("rule_name", ruleName);
+            // json.put("alarm_type", alarmType);
+            json.put("contact_name", contactName);
+            json.put("contact_phone", contactPhonenumber);
+            json.put("passes", passes);
+            JSONArray jsonArray = new JSONArray();
+            for (AbstractRuleEntry r: entries) {
+                jsonArray.put(r.toJson());
+            }
+            json.put("entries", jsonArray);
+        } catch (JSONException e) {
+            Log.d("com.avoidit", e.getMessage());
+        }
+
+        return json;
+    }
+
     public Rule() {
         this.ruleId = -1;
         this.ruleName = "";
@@ -67,24 +87,5 @@ public class Rule {
                 '}';
     }
 
-    public JSONObject toJson(){
-        JSONObject json = new JSONObject();
-        try {
-            json.put("rule_name", ruleName);
-            // json.put("alarm_type", alarmType);
-            json.put("contact_name", contactName);
-            json.put("contact_phone", contactPhonenumber);
-            json.put("passes", passes);
-            JSONArray jsonArray = new JSONArray();
-            for (AbstractRuleEntry r: entries) {
-                jsonArray.put(r.toJson());
-                //json.accumulate("entries" , r.toJson());
-            }
-            json.put("entries", jsonArray);
-        } catch (JSONException e) {
-            Log.d("com.avoidit", e.getMessage());
-        }
 
-        return json;
-    }
 }
